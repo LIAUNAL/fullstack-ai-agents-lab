@@ -1,0 +1,12 @@
+[submodule "references/Made-With-ML"]
+	path = references/Made-With-ML
+	url = https://github.com/amalvarezme/Made-With-ML.git
+[submodule "references/llm-zoomcamp"]
+	path = references/llm-zoomcamp
+	url = https://github.com/amalvarezme/llm-zoomcamp.git
+[submodule "references/GenAI_Agents"]
+	path = references/GenAI_Agents
+	url = https://github.com/amalvarezme/GenAI_Agents.git
+[submodule "references/ai-agents-for-beginners"]
+	path = references/ai-agents-for-beginners
+	url = https://github.com/amalvarezme/ai-agents-for-beginners.git

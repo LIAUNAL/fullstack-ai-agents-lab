@@ -1,0 +1,12 @@
+# Imagen base oficial de vLLM con servidor compatible con OpenAI
+FROM vllm/vllm-openai:latest
+
+ENV MODEL_NAME="Qwen/Qwen2.5-7B-Instruct" \
+    HOST="0.0.0.0" \
+    PORT="8001" \
+    GPU_MEMORY_UTILIZATION="0.90" \
+    MAX_MODEL_LEN="8192"
+
+EXPOSE 8001
+
+ENTRYPOINT ["sh", "-c", "python3 -m vllm.entrypoints.openai.api_server --model ${MODEL_NAME} --host ${HOST} --port ${PORT} --gpu-memory-utilization ${GPU_MEMORY_UTILIZATION} --max-model-len ${MAX_MODEL_LEN}"]

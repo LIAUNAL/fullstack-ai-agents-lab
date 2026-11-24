@@ -1,0 +1,29 @@
+description: "Suite de regresión para Full-Stack AI Agents Lab"
+
+prompts:
+  - |
+    Eres un arquitecto de software experto en agentes de IA.
+    Responde ÚNICAMENTE con un JSON válido con las llaves: "module", "risk_level", "summary".
+    Consulta: {{query}}
+
+providers:
+  - id: openai:gpt-4o-mini
+    config:
+      temperature: 0.0
+
+tests:
+  - vars:
+      query: "Explica cómo aislar el proveedor LLM usando Arquitectura Hexagonal."
+    assert:
+      - type: is-json
+      - type: javascript
+        value: "JSON.parse(output).module && JSON.parse(output).summary.length > 20"
+      - type: llm-rubric
+        value: "La respuesta menciona puertos/interfaces o desacoplamiento del proveedor LLM."
+
+  - vars:
+      query: "Evalúa el riesgo de desplegar un nuevo modelo vLLM en producción sin canary."
+    assert:
+      - type: is-json
+      - type: javascript
+        value: "['medium', 'high'].includes(JSON.parse(output).risk_level)"

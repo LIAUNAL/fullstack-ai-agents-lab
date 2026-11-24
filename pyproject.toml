@@ -1,0 +1,50 @@
+[project]
+name = "fullstack-ai-agents-lab"
+version = "0.1.0"
+description = "Full-Stack AI Agent Engineering Lab: Architecture, Serving, MCP, UX & AgentOps"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "fastapi>=0.115.0",
+    "uvicorn[standard]>=0.32.0",
+    "pydantic>=2.7.0",
+    "pydantic-settings>=2.6.0",
+    "langgraph>=0.2.50",
+    "langchain-core>=0.3.20",
+    "mcp>=1.2.0",
+    "litellm>=1.55.0",
+    "psycopg[binary]>=3.2.0",
+    "pgvector>=0.3.6",
+    "langfuse>=2.55.0",
+    "httpx>=0.28.0",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.3.0",
+    "pytest-asyncio>=0.24.0",
+    "ruff>=0.8.0",
+    "mypy>=1.13.0",
+]
+
+[tool.ruff]
+target-version = "py311"
+line-length = 100
+exclude = ["references", ".venv", "modules/04-fullstack-ux"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"
+testpaths = [
+    "modules/01-software-architecture/tests",
+    "modules/03-agent-backend/tests",
+]
+
+[tool.mypy]
+python_version = "3.11"
+ignore_missing_imports = true
+disallow_untyped_defs = true
+exclude = ["references", ".venv", "modules/04-fullstack-ux"]

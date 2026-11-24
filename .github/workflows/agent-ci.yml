@@ -1,0 +1,34 @@
+name: Agent Lab CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Validate Docker Compose configuration
+        run: docker compose config --quiet
+
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v4
+        with:
+          enable-cache: true
+
+      - name: Install dependencies
+        run: uv sync --frozen || uv sync
+
+      - name: Run Ruff lint
+        run: uv run ruff check .
+
+      - name: Run Mypy type check
+        run: uv run mypy modules/01-software-architecture/src modules/02-inference-gateway/structured_output_demo.py modules/05-agentops-observability/traced_agent.py
+
+      - name: Run Pytest suite
+        run: uv run pytest
