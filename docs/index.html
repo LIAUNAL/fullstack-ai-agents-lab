@@ -21,8 +21,11 @@
       --bl: #3763A9;  /* Evaluar */
     }
     * { box-sizing: border-box; }
-    body {
+    html, body {
       margin: 0;
+      padding: 0;
+      width: 100%;
+      overflow-x: hidden;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
       background: var(--bg);
       color: var(--ink);
@@ -30,7 +33,7 @@
     header {
       background: linear-gradient(135deg, var(--nv) 0%, var(--nv2) 100%);
       color: #fff;
-      padding: 16px 24px;
+      padding: 16px 20px;
       border-bottom: 4px solid var(--cy);
       display: flex;
       flex-wrap: wrap;
@@ -38,7 +41,7 @@
       align-items: center;
       gap: 12px;
     }
-    header h1 { margin: 0; font-size: 1.2rem; font-weight: 700; }
+    header h1 { margin: 0; font-size: clamp(1.05rem, 2.2vw, 1.3rem); font-weight: 700; }
     header p { margin: 4px 0 0; font-size: 0.83rem; color: #C7D7F2; }
     .pill-row { display: flex; flex-wrap: wrap; gap: 6px; }
     .pill {
@@ -51,7 +54,7 @@
     .toolbar {
       background: var(--paper);
       border-bottom: 1px solid var(--ln);
-      padding: 10px 24px;
+      padding: 10px 20px;
       display: flex;
       flex-wrap: wrap;
       align-items: center;
@@ -63,12 +66,11 @@
       border: 1px solid var(--ln);
       background: #F8FAFC;
       color: var(--nv);
-      padding: 7px 14px;
+      padding: 8px 14px;
       border-radius: 8px;
       font-size: 0.82rem;
       font-weight: 600;
       cursor: pointer;
-      transition: all 0.15s ease;
     }
     .tab-btn.active {
       background: var(--nv);
@@ -76,23 +78,79 @@
       border-color: var(--nv);
     }
     .hint { font-size: 0.78rem; color: var(--mu); }
+    .quick-nav {
+      background: #F8FAFC;
+      border-bottom: 1px solid var(--ln);
+      padding: 10px 20px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      align-items: center;
+    }
+    .quick-label {
+      font-size: 0.74rem;
+      font-weight: 700;
+      color: var(--mu);
+      text-transform: uppercase;
+      margin-right: 4px;
+    }
+    .quick-chip {
+      border: 1px solid var(--ln);
+      background: #fff;
+      color: var(--nv);
+      font-size: 0.76rem;
+      font-weight: 600;
+      padding: 5px 10px;
+      border-radius: 999px;
+      cursor: pointer;
+    }
+    .quick-chip.active {
+      color: #fff;
+      border-color: transparent;
+    }
     .layout {
       display: grid;
-      grid-template-columns: 1fr 410px;
-      height: 66vh;
-      min-height: 520px;
+      grid-template-columns: minmax(0, 1fr) 390px;
+      height: 580px;
       border-bottom: 1px solid var(--ln);
+      background: #F8FAFC;
     }
-    @media (max-width: 980px) {
-      .layout { grid-template-columns: 1fr; height: auto; }
-      #flow-wrap { height: 500px; }
+    #flow-wrap {
+      width: 100%;
+      height: 100%;
+      min-width: 0;
+      min-height: 0;
+      position: relative;
     }
-    #flow-wrap { width: 100%; height: 100%; background: #F8FAFC; }
     .sidebar {
       background: var(--paper);
       border-left: 1px solid var(--ln);
       padding: 18px;
       overflow-y: auto;
+      min-width: 0;
+    }
+    @media (max-width: 1024px) {
+      .layout {
+        grid-template-columns: 1fr;
+        height: auto;
+      }
+      #flow-wrap {
+        height: 440px;
+      }
+      .sidebar {
+        border-left: none;
+        border-top: 1px solid var(--ln);
+        max-height: none;
+      }
+    }
+    @media (max-width: 600px) {
+      header, .toolbar, .quick-nav, .section-wrap, .strategy {
+        padding-left: 14px;
+        padding-right: 14px;
+      }
+      #flow-wrap {
+        height: 390px;
+      }
     }
     .sidebar h2 { margin: 0 0 6px; font-size: 1.05rem; color: var(--nv); }
     .badge {
@@ -111,22 +169,54 @@
       letter-spacing: 0.04em;
       color: var(--mu);
     }
-    .sidebar ul, .sidebar ol { margin: 0; padding-left: 18px; font-size: 0.84rem; line-height: 1.5; }
+    .sidebar ul { margin: 0; padding-left: 18px; font-size: 0.84rem; line-height: 1.5; }
     .sidebar p { margin: 0 0 8px; font-size: 0.85rem; line-height: 1.45; }
     .section-wrap {
       max-width: 1320px;
       margin: 0 auto;
-      padding: 22px 24px 10px;
+      padding: 22px 20px 8px;
     }
     .section-title {
       margin: 0 0 12px;
-      font-size: 1rem;
+      font-size: 1.02rem;
       color: var(--nv);
       font-weight: 700;
     }
+    .semesters-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
+      gap: 16px;
+    }
+    .sem-box {
+      background: var(--paper);
+      border: 1px solid var(--ln);
+      border-radius: 12px;
+      padding: 16px;
+    }
+    .sem-box h4 {
+      margin: 0 0 12px;
+      font-size: 0.96rem;
+      color: var(--nv);
+      border-bottom: 2px solid var(--ln);
+      padding-bottom: 6px;
+    }
+    .course-item {
+      border: 1px solid var(--ln);
+      border-left: 4px solid var(--bl);
+      border-radius: 8px;
+      padding: 10px 12px;
+      margin-bottom: 10px;
+      cursor: pointer;
+      background: #FAFBFD;
+    }
+    .course-item.dashed { border-style: dashed; border-left-style: solid; }
+    .course-item:last-child { margin-bottom: 0; }
+    .course-item .c-tag { font-size: 0.68rem; font-weight: 700; text-transform: uppercase; }
+    .course-item .c-name { font-size: 0.88rem; font-weight: 700; color: var(--nv); margin: 2px 0 4px; }
+    .course-item .c-desc { font-size: 0.78rem; color: var(--mu); margin: 0 0 6px; line-height: 1.4; }
     .path-strip {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(195px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
       gap: 12px;
     }
     .path-step {
@@ -136,16 +226,14 @@
       border-radius: 10px;
       padding: 12px 14px;
       cursor: pointer;
-      transition: transform 0.12s ease;
     }
-    .path-step:hover { transform: translateY(-2px); }
     .path-step .step-kicker { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; }
     .path-step h4 { margin: 4px 0 6px; font-size: 0.88rem; color: var(--nv); }
     .path-step p { margin: 0; font-size: 0.78rem; color: var(--mu); line-height: 1.4; }
     .strategy {
       max-width: 1320px;
       margin: 0 auto;
-      padding: 18px 24px 40px;
+      padding: 18px 20px 40px;
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
       gap: 16px;
@@ -172,19 +260,19 @@
       background: #fff;
       border: 2px solid var(--bl);
       border-radius: 10px;
-      padding: 10px 12px;
-      width: 265px;
+      padding: 9px 11px;
+      width: 248px;
       box-shadow: 0 4px 10px rgba(13, 27, 51, 0.08);
       cursor: pointer;
     }
     .rf-node-card.dashed { border-style: dashed; background: #F8FAFC; }
     .rf-node-card.selected { box-shadow: 0 0 0 3px rgba(0, 168, 224, 0.35); }
-    .rf-node-tag { font-size: 0.66rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; }
-    .rf-node-title { font-size: 0.84rem; font-weight: 700; margin: 3px 0; color: var(--nv); }
-    .rf-node-sub { font-size: 0.72rem; color: var(--mu); margin-bottom: 6px; }
+    .rf-node-tag { font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.03em; }
+    .rf-node-title { font-size: 0.83rem; font-weight: 700; margin: 2px 0; color: var(--nv); }
+    .rf-node-sub { font-size: 0.71rem; color: var(--mu); margin-bottom: 6px; }
     .rf-mod-pills { display: flex; flex-wrap: wrap; gap: 4px; }
     .rf-mod-pill {
-      font-size: 0.65rem;
+      font-size: 0.64rem;
       background: #EEF2F7;
       color: #1E293B;
       padding: 2px 6px;
@@ -196,8 +284,8 @@
 <body>
   <header>
     <div>
-      <h1>Especialización en Aprendizaje Automático mediante IA · Módulos y Construcción del Path</h1>
-      <p>UNAL Manizales (Plan 4356) · Cadencia 12+4 semanas (3 h/sem) · Aprendizaje Profundo, ABP y Design Thinking</p>
+      <h1>Especialización en Aprendizaje Automático mediante IA · Módulos y Path Curricular</h1>
+      <p>UNAL Manizales (Plan 4356) · Semestre 1 y Semestre 2 · Cadencia 12+4 semanas (3 h/sem)</p>
     </div>
     <div class="pill-row">
       <span class="pill" style="background: var(--cy);">1. Empatizar</span>
@@ -217,10 +305,11 @@
     const e = React.createElement;
     const RF = window.ReactFlow;
     const ReactFlowComp = RF.default || RF.ReactFlow;
-    const { Background, Controls, MiniMap, Handle, Position } = RF;
+    const { Background, Controls, MiniMap, Handle, Position, ReactFlowProvider } = RF;
 
     const SUBJECTS_DATA = {
       s1_datos: {
+        semester: 1,
         tag: "Semestre 1 · OBL 01 · SIA 18368",
         title: "Ingeniería de Datos y Big Data",
         sub: "5 módulos oficiales · Base de datos y linaje",
@@ -244,6 +333,7 @@
         handoff: "Datasets versionados + contratos de esquema + almacenamiento vectorial."
       },
       s1_redes: {
+        semester: 1,
         tag: "Semestre 1 · OBL 03 · SIA 18373",
         title: "Redes Neuronales y Deep Learning",
         sub: "6 módulos oficiales · Transformers y LLMs",
@@ -268,6 +358,7 @@
         handoff: "Modelos profundos / LLMs ajustados y cuantizados con perfil de cómputo."
       },
       s1_despliegue: {
+        semester: 1,
         tag: "Semestre 1 · OBL 04 · SIA 18375",
         title: "Despliegue de Modelos y Agentes IA",
         sub: "5 módulos oficiales · Producción y AgentOps",
@@ -291,6 +382,7 @@
         handoff: "Sistema agéntico operable, medible, trazable y auditable en producción."
       },
       s1_elec: {
+        semester: 1,
         tag: "Semestre 1 · Fuera del Path",
         title: "Electiva General (1)",
         sub: "Complemento electivo del semestre",
@@ -304,6 +396,7 @@
         handoff: "Créditos electivos complementarios."
       },
       s2_ml: {
+        semester: 2,
         tag: "Semestre 2 · OBL 02 · SIA 18371",
         title: "Machine Learning (Intro al ML)",
         sub: "5 módulos oficiales · Rigor y Validación",
@@ -327,6 +420,7 @@
         handoff: "Criterio experimental riguroso para validar, comparar y auditar modelos."
       },
       s2_soft: {
+        semester: 2,
         tag: "Semestre 2 · ELE · 3 Créditos",
         title: "Desarrollo de Software con Agentes",
         sub: "6 módulos oficiales · SDD + TDD + MCP + CI/CD",
@@ -351,6 +445,7 @@
         handoff: "Arquitectura mantenible, especificada, testeada y gobernada en producción."
       },
       s2_elecs: {
+        semester: 2,
         tag: "Semestre 2 · Fuera del Path",
         title: "Dos Electivas (2)",
         sub: "Complemento electivo del semestre",
@@ -459,13 +554,13 @@
     const nodeTypes = { modNode: ModuleNode };
 
     const SUBJECT_NODES = [
-      { id: "s1_datos", type: "modNode", position: { x: 20, y: 20 }, data: SUBJECTS_DATA.s1_datos },
-      { id: "s1_redes", type: "modNode", position: { x: 20, y: 175 }, data: SUBJECTS_DATA.s1_redes },
-      { id: "s1_elec", type: "modNode", position: { x: 20, y: 345 }, data: SUBJECTS_DATA.s1_elec },
-      { id: "s1_despliegue", type: "modNode", position: { x: 355, y: 105 }, data: SUBJECTS_DATA.s1_despliegue },
-      { id: "s2_ml", type: "modNode", position: { x: 690, y: 20 }, data: SUBJECTS_DATA.s2_ml },
-      { id: "s2_soft", type: "modNode", position: { x: 690, y: 175 }, data: SUBJECTS_DATA.s2_soft },
-      { id: "s2_elecs", type: "modNode", position: { x: 690, y: 345 }, data: SUBJECTS_DATA.s2_elecs }
+      { id: "s1_datos", type: "modNode", position: { x: 10, y: 10 }, data: SUBJECTS_DATA.s1_datos },
+      { id: "s1_redes", type: "modNode", position: { x: 10, y: 165 }, data: SUBJECTS_DATA.s1_redes },
+      { id: "s1_elec", type: "modNode", position: { x: 10, y: 325 }, data: SUBJECTS_DATA.s1_elec },
+      { id: "s1_despliegue", type: "modNode", position: { x: 325, y: 95 }, data: SUBJECTS_DATA.s1_despliegue },
+      { id: "s2_ml", type: "modNode", position: { x: 640, y: 10 }, data: SUBJECTS_DATA.s2_ml },
+      { id: "s2_soft", type: "modNode", position: { x: 640, y: 165 }, data: SUBJECTS_DATA.s2_soft },
+      { id: "s2_elecs", type: "modNode", position: { x: 640, y: 325 }, data: SUBJECTS_DATA.s2_elecs }
     ];
 
     const SUBJECT_EDGES = [
@@ -477,12 +572,12 @@
     ];
 
     const PATH_NODES = [
-      { id: "m0_datos", type: "modNode", position: { x: 20, y: 60 }, data: PATH_BUILD_DATA.m0_datos },
-      { id: "m1_arch", type: "modNode", position: { x: 20, y: 230 }, data: PATH_BUILD_DATA.m1_arch },
-      { id: "m2_gateway", type: "modNode", position: { x: 345, y: 60 }, data: PATH_BUILD_DATA.m2_gateway },
-      { id: "m3_backend", type: "modNode", position: { x: 345, y: 230 }, data: PATH_BUILD_DATA.m3_backend },
-      { id: "m4_ux", type: "modNode", position: { x: 675, y: 60 }, data: PATH_BUILD_DATA.m4_ux },
-      { id: "m5_ops", type: "modNode", position: { x: 675, y: 230 }, data: PATH_BUILD_DATA.m5_ops }
+      { id: "m0_datos", type: "modNode", position: { x: 10, y: 30 }, data: PATH_BUILD_DATA.m0_datos },
+      { id: "m1_arch", type: "modNode", position: { x: 10, y: 205 }, data: PATH_BUILD_DATA.m1_arch },
+      { id: "m2_gateway", type: "modNode", position: { x: 320, y: 30 }, data: PATH_BUILD_DATA.m2_gateway },
+      { id: "m3_backend", type: "modNode", position: { x: 320, y: 205 }, data: PATH_BUILD_DATA.m3_backend },
+      { id: "m4_ux", type: "modNode", position: { x: 635, y: 30 }, data: PATH_BUILD_DATA.m4_ux },
+      { id: "m5_ops", type: "modNode", position: { x: 635, y: 205 }, data: PATH_BUILD_DATA.m5_ops }
     ];
 
     const PATH_EDGES = [
@@ -496,11 +591,11 @@
 
     function App() {
       const [view, setView] = React.useState("subjects");
-      const [selectedId, setSelectedId] = React.useState("s1_despliegue");
+      const [selectedId, setSelectedId] = React.useState("s1_datos");
 
       const handleSwitchView = (nextView) => {
         setView(nextView);
-        setSelectedId(nextView === "subjects" ? "s1_despliegue" : "m3_backend");
+        setSelectedId(nextView === "subjects" ? "s1_datos" : "m0_datos");
       };
 
       const dataMap = view === "subjects" ? SUBJECTS_DATA : PATH_BUILD_DATA;
@@ -510,6 +605,9 @@
         selected: n.id === selectedId
       }));
       const edges = view === "subjects" ? SUBJECT_EDGES : PATH_EDGES;
+
+      const sem1Courses = Object.entries(SUBJECTS_DATA).filter(([, v]) => v.semester === 1);
+      const sem2Courses = Object.entries(SUBJECTS_DATA).filter(([, v]) => v.semester === 2);
 
       return e(
         React.Fragment,
@@ -531,7 +629,21 @@
               onClick: () => handleSwitchView("path")
             }, "Vista 2 · Cómo se construye el Path (M0 → M5 + Capstone)")
           ),
-          e("span", { className: "hint" }, "Haz clic en cualquier nodo para inspeccionar sus módulos oficiales, bloques 12+4 y entregables.")
+          e("span", { className: "hint" }, "Haz clic en cualquier nodo o curso para ver sus módulos oficiales y su aporte al path.")
+        ),
+        e(
+          "div",
+          { className: "quick-nav" },
+          e("span", { className: "quick-label" }, view === "subjects" ? "Cursos:" : "Etapas:"),
+          Object.entries(dataMap).map(([id, item]) =>
+            e("button", {
+              key: id,
+              type: "button",
+              className: "quick-chip" + (selectedId === id ? " active" : ""),
+              style: selectedId === id ? { background: item.color } : { borderColor: item.color },
+              onClick: () => setSelectedId(id)
+            }, item.title)
+          )
         ),
         e(
           "div",
@@ -540,18 +652,26 @@
             "div",
             { id: "flow-wrap" },
             e(
-              ReactFlowComp,
-              {
-                key: view,
-                nodes,
-                edges,
-                nodeTypes,
-                fitView: true,
-                onNodeClick: (_, node) => setSelectedId(node.id)
-              },
-              e(Background, { gap: 18, color: "#E2E8F0" }),
-              e(Controls, null),
-              e(MiniMap, { nodeColor: (n) => (n.data && n.data.color) || "#3763A9" })
+              ReactFlowProvider,
+              null,
+              e(
+                ReactFlowComp,
+                {
+                  key: view,
+                  style: { width: "100%", height: "100%" },
+                  nodes,
+                  edges,
+                  nodeTypes,
+                  fitView: true,
+                  fitViewOptions: { padding: 0.16 },
+                  minZoom: 0.3,
+                  maxZoom: 1.5,
+                  onNodeClick: (_, node) => setSelectedId(node.id)
+                },
+                e(Background, { gap: 18, color: "#E2E8F0" }),
+                e(Controls, null),
+                e(MiniMap, { nodeColor: (n) => (n.data && n.data.color) || "#3763A9" })
+              )
             )
           ),
           e(
@@ -573,7 +693,56 @@
         e(
           "section",
           { className: "section-wrap" },
-          e("h3", { className: "section-title" }, "Construcción Progresiva del Path (clic para inspeccionar en Vista 2)"),
+          e("h3", { className: "section-title" }, "Plan Completo por Semestres (clic en cualquier asignatura para inspeccionar)"),
+          e(
+            "div",
+            { className: "semesters-grid" },
+            e(
+              "div",
+              { className: "sem-box" },
+              e("h4", null, "Primer Semestre (3 en el Path + 1 Electiva General)"),
+              sem1Courses.map(([id, c]) =>
+                e(
+                  "div",
+                  {
+                    key: id,
+                    className: "course-item" + (c.dashed ? " dashed" : ""),
+                    style: { borderLeftColor: c.color },
+                    onClick: () => { setView("subjects"); setSelectedId(id); }
+                  },
+                  e("div", { className: "c-tag", style: { color: c.color } }, c.tag),
+                  e("div", { className: "c-name" }, c.title),
+                  e("p", { className: "c-desc" }, c.role),
+                  e("div", { className: "rf-mod-pills" }, c.pills.map((p, i) => e("span", { key: i, className: "rf-mod-pill" }, p)))
+                )
+              )
+            ),
+            e(
+              "div",
+              { className: "sem-box" },
+              e("h4", null, "Segundo Semestre (2 en el Path + 2 Electivas)"),
+              sem2Courses.map(([id, c]) =>
+                e(
+                  "div",
+                  {
+                    key: id,
+                    className: "course-item" + (c.dashed ? " dashed" : ""),
+                    style: { borderLeftColor: c.color },
+                    onClick: () => { setView("subjects"); setSelectedId(id); }
+                  },
+                  e("div", { className: "c-tag", style: { color: c.color } }, c.tag),
+                  e("div", { className: "c-name" }, c.title),
+                  e("p", { className: "c-desc" }, c.role),
+                  e("div", { className: "rf-mod-pills" }, c.pills.map((p, i) => e("span", { key: i, className: "rf-mod-pill" }, p)))
+                )
+              )
+            )
+          )
+        ),
+        e(
+          "section",
+          { className: "section-wrap" },
+          e("h3", { className: "section-title" }, "Construcción Progresiva del Path (M0 → M5 + Capstone)"),
           e(
             "div",
             { className: "path-strip" },
