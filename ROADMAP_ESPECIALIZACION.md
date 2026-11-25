@@ -21,7 +21,7 @@ Este documento articula el plan de estudios de la Especialización con el labora
 | **5. Evaluar** | `#3763A9` | Diagnóstico de fallos, predicción de ejecución no obvia y defensa de *trade-offs*. |
 
 ### 1.3 Formato Semanal Ágil (`12 + 4` semanas · 48 HAP)
-Cada asignatura del path se organiza en **16 semanas**: **12 semanas de clase (3 h/sem)** + **4 semanas intercaladas** de resolución de dudas, entregas y sustentación (**cadencia 3+1**: `S1–S3→S4`, `S5–S7→S8`, `S9–S11→S12`, `S13–S15→S16`):
+Cada asignatura del path se organiza en **16 semanas**: **12 semanas de clase (3 h/sem)** + **4 semanas intercaladas** de resolución de dudas, entregas y sustentación (**intensidad horaria 3+1**: `S1–S3→S4`, `S5–S7→S8`, `S9–S11→S12`, `S13–S15→S16`):
 
 - **Material Asíncrono Corto (15–20 min):** Video ≤3 min, infografía, mapa mental, 5 tarjetas de memoria (*Retrieval Practice*) y *Worked Example* anotado.
 - **Sesión Semanal de 3 horas (180 min):**
