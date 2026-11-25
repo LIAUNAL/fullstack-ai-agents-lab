@@ -1,4 +1,4 @@
-# Full-Stack AI Agents Lab (`amalvarezme/fullstack-ai-agents-lab`)
+# Full-Stack AI Agents Lab (`LIAUNAL/fullstack-ai-agents-lab`)
 
 Laboratorio y plantilla de ingeniería **Full-Stack para Sistemas con Agentes de IA en Producción**. Diseñado para dar el salto desde bases de Machine Learning, agentes y programación hacia **arquitectura de software, despliegue de modelos (Serving), MLOps/AgentOps y ciclo de vida de software (SDLC)**.
 
@@ -7,7 +7,7 @@ Laboratorio y plantilla de ingeniería **Full-Stack para Sistemas con Agentes de
 ## Visión General del Programa (12 Semanas · 6 Módulos)
 
 Este repositorio combina:
-1. **Repositorios de referencia open-source** forkeados en `amalvarezme` y enlazados como **Git Submodules** en [`references/`](references/) (sin contaminar el historial).
+1. **Repositorios de referencia open-source** forkeados en `LIAUNAL` y enlazados como **Git Submodules** en [`references/`](references/) (sin contaminar el historial).
 2. **Módulos prácticos desde cero** en [`modules/`](modules/) que cubren las brechas de producción: Arquitectura Hexagonal, LiteLLM/vLLM, FastAPI + LangGraph + MCP, Next.js con SSE/HITL y Langfuse + Promptfoo.
 3. **Infraestructura local reproducible** con Docker Compose (`pgvector`, Redis, LiteLLM Gateway, Langfuse), gestión de dependencias con `uv` y CI/CD en GitHub Actions.
 
