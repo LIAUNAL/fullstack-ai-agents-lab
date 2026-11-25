@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Path Especialización AA-IA &amp; Full-Stack AI Agents Lab</title>
+  <link rel="stylesheet" href="https://unpkg.com/reactflow@11.11.4/dist/style.css" />
+  <style>
+    :root {
+      --nv: #0D1B33;
+      --nv2: #16294D;
+      --bg: #F1F5FB;
+      --paper: #FFFFFF;
+      --ln: #DCE5F1;
+      --ink: #181F2F;
+      --mu: #5B667A;
+      --cy: #00A8E0;  /* Empatizar */
+      --co: #E9572B;  /* Definir */
+      --gr: #4DB922;  /* Idear */
+      --am: #FF8A00;  /* Prototipar */
+      --bl: #3763A9;  /* Evaluar */
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+    }
+    header {
+      background: linear-gradient(135deg, var(--nv) 0%, var(--nv2) 100%);
+      color: #fff;
+      padding: 18px 24px;
+      border-bottom: 4px solid var(--cy);
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+    header h1 { margin: 0; font-size: 1.25rem; font-weight: 700; }
+    header p { margin: 4px 0 0; font-size: 0.85rem; color: #C7D7F2; }
+    .pill-row { display: flex; flex-wrap: wrap; gap: 6px; }
+    .pill {
+      font-size: 0.72rem;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 999px;
+      color: #fff;
+    }
+    .layout {
+      display: grid;
+      grid-template-columns: 1fr 370px;
+      height: 62vh;
+      min-height: 480px;
+      border-bottom: 1px solid var(--ln);
+    }
+    @media (max-width: 960px) {
+      .layout { grid-template-columns: 1fr; height: auto; }
+      #flow-wrap { height: 460px; }
+    }
+    #flow-wrap { width: 100%; height: 100%; background: #F8FAFC; }
+    .sidebar {
+      background: var(--paper);
+      border-left: 1px solid var(--ln);
+      padding: 18px;
+      overflow-y: auto;
+    }
+    .sidebar h2 { margin: 0 0 6px; font-size: 1.05rem; color: var(--nv); }
+    .badge {
+      display: inline-block;
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 6px;
+      margin-bottom: 10px;
+      color: #fff;
+    }
+    .sidebar h3 {
+      margin: 14px 0 6px;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--mu);
+    }
+    .sidebar ul { margin: 0; padding-left: 18px; font-size: 0.86rem; line-height: 1.5; }
+    .sidebar p { margin: 0 0 8px; font-size: 0.87rem; line-height: 1.45; }
+    .strategy {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 22px 24px 40px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 16px;
+    }
+    .card {
+      background: var(--paper);
+      border: 1px solid var(--ln);
+      border-radius: 12px;
+      padding: 16px 18px;
+      box-shadow: 0 2px 6px rgba(13, 27, 51, 0.04);
+    }
+    .card h3 { margin: 0 0 8px; font-size: 0.98rem; color: var(--nv); }
+    .card p, .card li { font-size: 0.85rem; line-height: 1.5; color: #2D3748; }
+    .card ul { margin: 6px 0 0; padding-left: 18px; }
+    .dt-grid { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+    .dt-chip {
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 4px 9px;
+      border-radius: 6px;
+      color: #fff;
+    }
+    .rf-node-card {
+      background: #fff;
+      border: 2px solid var(--bl);
+      border-radius: 10px;
+      padding: 10px 12px;
+      width: 220px;
+      box-shadow: 0 4px 10px rgba(13, 27, 51, 0.08);
+      cursor: pointer;
+    }
+    .rf-node-card.selected { box-shadow: 0 0 0 3px rgba(0, 168, 224, 0.35); }
+    .rf-node-tag { font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; }
+    .rf-node-title { font-size: 0.85rem; font-weight: 700; margin: 3px 0; color: var(--nv); }
+    .rf-node-sub { font-size: 0.73rem; color: var(--mu); }
+  </style>
+</head>
+<body>
+  <header>
+    <div>
+      <h1>Especialización en Aprendizaje Automático mediante IA · Path Integrado (UNAL Plan 4356)</h1>
+      <p>4 Obligatorias + Desarrollo de Software con IA · Cadencia 12+4 semanas (3 h/sem) · Fusión Hermes 68372 + Metodología Angie</p>
+    </div>
+    <div class="pill-row">
+      <span class="pill" style="background: var(--cy);">1. Empatizar</span>
+      <span class="pill" style="background: var(--co);">2. Definir</span>
+      <span class="pill" style="background: var(--gr);">3. Idear</span>
+      <span class="pill" style="background: var(--am);">4. Prototipar</span>
+      <span class="pill" style="background: var(--bl);">5. Evaluar</span>
+    </div>
+  </header>
+
+  <div id="root"></div>
+
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/reactflow@11.11.4/dist/umd/index.js"></script>
+  <script>
+    const e = React.createElement;
+    const RF = window.ReactFlow;
+    const ReactFlowComp = RF.default || RF.ReactFlow;
+    const { Background, Controls, MiniMap, Handle, Position } = RF;
+
+    const COURSE_DATA = {
+      obl1: {
+        tag: "Semestre 1 · OBL 01 · SIA 18368",
+        title: "Ingeniería de Datos y Big Data",
+        sub: "12+4 sem · Contratos y Feature Store",
+        color: "#00A8E0",
+        role: "Capa de Datos y Gobernanza: entrega datasets versionados, contratos de esquema y pipelines reproducibles.",
+        modules: ["references/Made-With-ML (data validation & lineage)", "Contratos Pydantic v2 (M1)", "Postgres + pgvector (docker-compose.yml)"],
+        blocks: [
+          "S1–S3 → S4 (Hito 1): Arquitecturas (Warehouse/Lakehouse), Parquet/Avro y calidad",
+          "S5–S7 → S8 (Hito 2): SQL analítico, modelado dimensional y NoSQL",
+          "S9–S11 → S12 (Hito 3): Pipelines batch/stream, Spark e idempotencia",
+          "S13–S15 → S16 (Hito 4): Linaje, Feature Store, deriva y Ley 1581/2012"
+        ],
+        handoff: "Dataset versionado + contratos de datos listos para entrenamiento."
+      },
+      obl2: {
+        tag: "Semestre 1 · OBL 02 · SIA 18371",
+        title: "Introducción al Aprendizaje de Máquina",
+        sub: "12+4 sem · Baseline y Validación sin fugas",
+        color: "#E9572B",
+        role: "Capa de Modelado Clásico: enseña rigor estadístico, validación sin data leakage e interpretabilidad.",
+        modules: ["references/Made-With-ML (pipelines reproducibles y métricas)", "Pruebas de datos y regresión sobre modelos tabulares"],
+        blocks: [
+          "S1–S3 → S4 (Hito 1): Álgebra, optimización y riesgo empírico",
+          "S5–S7 → S8 (Hito 2): Modelos supervisados (lineales, SVM, árboles/boosting)",
+          "S9–S11 → S12 (Hito 3): No supervisados (clustering, PCA/UMAP) y regularización",
+          "S13–S15 → S16 (Hito 4): Métricas (F1, PR-AUC, RMSE), desbalanceo e interpretabilidad"
+        ],
+        handoff: "Modelo baseline validado + protocolo experimental reproducible."
+      },
+      ele: {
+        tag: "Semestre 1/2 · ELE · 3 Créditos",
+        title: "Principios de Desarrollo de Software con IA",
+        sub: "12+4 sem · SDD + TDD + Hexagonal + MCP",
+        color: "#4DB922",
+        role: "Capa de Arquitectura y SDLC: evita deuda técnica al programar con agentes mediante SDD, TDD y CI/CD.",
+        modules: ["M1: 01-software-architecture (Hexagonal + Pydantic v2)", "M3: Protocolo MCP y contexto", ".github/workflows/agent-ci.yml (ruff, mypy, pytest, DORA)"],
+        blocks: [
+          "S1–S3 → S4 (Hito 1): Deuda técnica con IA, Arquitectura Hexagonal y SDD",
+          "S5–S7 → S8 (Hito 2): TDD (rojo-verde-refactor), dobles/mocks y propiedades",
+          "S9–S11 → S12 (Hito 3): Agentes de código, ingeniería de contexto y MCP",
+          "S13–S15 → S16 (Hito 4): Revisión asistida, análisis estático, CI/CD y métricas DORA"
+        ],
+        handoff: "Repositorio gobernado con specs ejecutables, tests de contrato y CI."
+      },
+      obl3: {
+        tag: "Semestre 2 · OBL 03 · SIA 18373",
+        title: "Redes Neuronales y Aprendizaje Profundo",
+        sub: "12+4 sem · Transformers, LoRA y Cuantización",
+        color: "#FF8A00",
+        role: "Capa de Deep Learning y LLMs: construcción desde cero en PyTorch hasta ajuste fino eficiente y perfilado.",
+        modules: ["M2: 02-inference-gateway (puente cuantización y VRAM)", "M3: Fundamentos de embeddings y atención", "Made-With-ML (reproducibilidad)"],
+        blocks: [
+          "S1–S3 → S4 (Hito 1): MLP desde cero, CNNs/ResNet y RNN/LSTM/GRU",
+          "S5–S7 → S8 (Hito 2): Atención (Q/K/V), Transformers y fundamentos de LLMs",
+          "S9–S11 → S12 (Hito 3): LoRA/QLoRA, cuantización y entrenamiento distribuido",
+          "S13–S15 → S16 (Hito 4): Reproducibilidad, perfilado y comparativa modelo compacto vs. LLM"
+        ],
+        handoff: "Modelo profundo / LLM ajustado y cuantizado con perfil de cómputo."
+      },
+      obl4: {
+        tag: "Semestre 2 · OBL 04 · SIA 18375",
+        title: "Despliegue de Modelos y Agentes Inteligentes",
+        sub: "12+4 sem · vLLM, LangGraph, MCP, AgentOps",
+        color: "#3763A9",
+        role: "Capa de Producción Full-Stack: serving, RAG/MCP, UX con SSE/HITL, observabilidad y cumplimiento regulatorio.",
+        modules: ["M2: vLLM + LiteLLM", "M3: FastAPI + LangGraph + MCP", "M4: Next.js SSE + HITL", "M5: Langfuse + Promptfoo", "capstone/"],
+        blocks: [
+          "S1–S3 → S4 (Hito 1): MLOps, model registry, canary/shadow y Docker",
+          "S5–S7 → S8 (Hito 2): vLLM, cuantización/ONNX/edge y LiteLLM fallback",
+          "S9–S11 → S12 (Hito 3): pgvector + RAG/Agentic RAG, LangGraph, MCP y UX SSE/HITL",
+          "S13–S15 → S16 (Hito 4): Promptfoo, Langfuse, deriva, seguridad y Ley 1581 / EU AI Act / ISO 42001"
+        ],
+        handoff: "Sistema End-to-End en producción, auditable y con análisis de riesgo/costo."
+      },
+      hermes_angie: {
+        tag: "Núcleo Pedagógico Transversal",
+        title: "Hermes 68372 + Metodología Angie",
+        sub: "Motivación · Argumentación · Resolución",
+        color: "#0D1B33",
+        role: "Motor didáctico común a las 5 materias: clases de 3 h (≤1 h magistral + 2 h ABP) y consulta asíncrona ágil.",
+        modules: ["Kit Asíncrono: video ≤3 min, infografía, mapa mental, 5 tarjetas", "Worked Examples antes del reto autónomo", "Evaluación sin memorización: predicción, bugs y mediación"],
+        blocks: [
+          "Empatizar (#00A8E0) + Definir (#E9572B): 25 min — caso roto real + reto",
+          "Cápsula Magistral + Worked Example (#4DB922): 35 min (máx. 60 min expositivos)",
+          "Idear + Prototipar (#FF8A00): 80 min ABP con tutor IA que guía sin dar la respuesta",
+          "Evaluar (#3763A9): 30 min — diagnóstico de fallos + defensa breve de trade-offs"
+        ],
+        handoff: "Aprendizaje profundo verificable sin descarga cognitiva."
+      }
+    };
+
+    function CourseNode({ data, selected }) {
+      return e(
+        "div",
+        {
+          className: "rf-node-card" + (selected ? " selected" : ""),
+          style: { borderColor: data.color }
+        },
+        e(Handle, { type: "target", position: Position.Left, style: { background: data.color } }),
+        e("div", { className: "rf-node-tag", style: { color: data.color } }, data.tag),
+        e("div", { className: "rf-node-title" }, data.title),
+        e("div", { className: "rf-node-sub" }, data.sub),
+        e(Handle, { type: "source", position: Position.Right, style: { background: data.color } })
+      );
+    }
+
+    const nodeTypes = { course: CourseNode };
+
+    const initialNodes = [
+      { id: "hermes_angie", type: "course", position: { x: 280, y: 15 }, data: COURSE_DATA.hermes_angie },
+      { id: "obl1", type: "course", position: { x: 40, y: 150 }, data: COURSE_DATA.obl1 },
+      { id: "obl2", type: "course", position: { x: 40, y: 290 }, data: COURSE_DATA.obl2 },
+      { id: "ele", type: "course", position: { x: 320, y: 290 }, data: COURSE_DATA.ele },
+      { id: "obl3", type: "course", position: { x: 320, y: 150 }, data: COURSE_DATA.obl3 },
+      { id: "obl4", type: "course", position: { x: 620, y: 215 }, data: COURSE_DATA.obl4 }
+    ];
+
+    const initialEdges = [
+      { id: "e-h-1", source: "hermes_angie", target: "obl1", animated: true, style: { stroke: "#0D1B33" } },
+      { id: "e-h-3", source: "hermes_angie", target: "obl3", animated: true, style: { stroke: "#0D1B33" } },
+      { id: "e-h-4", source: "hermes_angie", target: "obl4", animated: true, style: { stroke: "#0D1B33" } },
+      { id: "e-1-2", source: "obl1", target: "obl2", label: "Dataset + Contratos", animated: true, style: { stroke: "#00A8E0", strokeWidth: 2 } },
+      { id: "e-1-3", source: "obl1", target: "obl3", label: "Datos versionados", animated: true, style: { stroke: "#00A8E0", strokeWidth: 2 } },
+      { id: "e-2-3", source: "obl2", target: "obl3", label: "Criterio validación", animated: true, style: { stroke: "#E9572B", strokeWidth: 2 } },
+      { id: "e-ele-4", source: "ele", target: "obl4", label: "SDD + TDD + Hexagonal + MCP", animated: true, style: { stroke: "#4DB922", strokeWidth: 2 } },
+      { id: "e-3-4", source: "obl3", target: "obl4", label: "LLM / LoRA + Cuantización", animated: true, style: { stroke: "#FF8A00", strokeWidth: 2 } }
+    ];
+
+    function App() {
+      const [selectedId, setSelectedId] = React.useState("obl4");
+      const active = COURSE_DATA[selectedId];
+
+      return e(
+        React.Fragment,
+        null,
+        e(
+          "div",
+          { className: "layout" },
+          e(
+            "div",
+            { id: "flow-wrap" },
+            e(
+              ReactFlowComp,
+              {
+                nodes: initialNodes.map((n) => ({ ...n, selected: n.id === selectedId })),
+                edges: initialEdges,
+                nodeTypes,
+                fitView: true,
+                onNodeClick: (_, node) => setSelectedId(node.id)
+              },
+              e(Background, { gap: 18, color: "#E2E8F0" }),
+              e(Controls, null),
+              e(MiniMap, { nodeColor: (n) => (n.data && n.data.color) || "#3763A9" })
+            )
+          ),
+          e(
+            "aside",
+            { className: "sidebar" },
+            e("span", { className: "badge", style: { background: active.color } }, active.tag),
+            e("h2", null, active.title),
+            e("p", null, active.role),
+            e("h3", null, "Módulos de fullstack-ai-agents-lab"),
+            e("ul", null, active.modules.map((m, i) => e("li", { key: i }, m))),
+            e("h3", null, "Estructura 12+4 semanas (3 h/sem)"),
+            e("ul", null, active.blocks.map((b, i) => e("li", { key: i }, b))),
+            e("h3", null, "Entregable hacia el siguiente nivel"),
+            e("p", { style: { fontWeight: 600, color: "#0D1B33" } }, active.handoff)
+          )
+        ),
+        e(
+          "section",
+          { className: "strategy" },
+          e(
+            "div",
+            { className: "card" },
+            e("h3", null, "1. Ejes Hermes 68372 (Sin descarga cognitiva)"),
+            e("p", null, "Toda interacción con agentes busca evitar la ilusión de competencia y fortalecer tres dimensiones independientes:"),
+            e("ul", null,
+              e("li", null, e("strong", null, "Motivación: "), "retos reales de despliegue con agencia del aprendiz."),
+              e("li", null, e("strong", null, "Argumentación: "), "defender trade-offs (latencia, VRAM, costo, riesgo) con trazas reales."),
+              e("li", null, e("strong", null, "Resolución de problemas: "), "depurar antes de invocar librerías y validar con pruebas.")
+            )
+          ),
+          e(
+            "div",
+            { className: "card" },
+            e("h3", null, "2. Metodología Angie (Adultos con poco tiempo)"),
+            e("p", null, "Diseño ágil basado en Andragogía (Knowles), Worked Examples (Sweller), PCK (Shulman) y Retrieval Practice:"),
+            e("ul", null,
+              e("li", null, e("strong", null, "Sesión de 3 h: "), "máx. 60 min expositivos + 120 min de ABP activo."),
+              e("li", null, e("strong", null, "Consulta asíncrona: "), "video ≤3 min, infografía, mapa mental y 5 tarjetas."),
+              e("li", null, e("strong", null, "Evaluación: "), "predecir salidas no obvias, detectar bugs y guiar sin dar la respuesta.")
+            )
+          ),
+          e(
+            "div",
+            { className: "card" },
+            e("h3", null, "3. Paleta Design Thinking + Cadencia 12+4"),
+            e("p", null, "Cada asignatura cumple 48 HAP en 4 bloques 3+1 (S1–S3→S4, S5–S7→S8, S9–S11→S12, S13–S15→S16):"),
+            e("div", { className: "dt-grid" },
+              e("span", { className: "dt-chip", style: { background: "#00A8E0" } }, "Empatizar: caso roto"),
+              e("span", { className: "dt-chip", style: { background: "#E9572B" } }, "Definir: spec SDD"),
+              e("span", { className: "dt-chip", style: { background: "#4DB922" } }, "Idear: arquitectura"),
+              e("span", { className: "dt-chip", style: { background: "#FF8A00" } }, "Prototipar: código + MCP"),
+              e("span", { className: "dt-chip", style: { background: "#3763A9" } }, "Evaluar: trazas + defensa")
+            )
+          )
+        )
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById("root")).render(e(App));
+  </script>
+</body>
+</html>
