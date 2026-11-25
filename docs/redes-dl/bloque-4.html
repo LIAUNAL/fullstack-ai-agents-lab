@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bloque 4 · Reproducibilidad, Perfilado y Decisión</title>
+  <link rel="stylesheet" href="https://unpkg.com/reactflow@11.11.4/dist/style.css" />
+  <link rel="stylesheet" href="deck.css" />
+  <script>window.MathJax = { tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] } };</script>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+</head>
+<body>
+  <div id="root"></div>
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/reactflow@11.11.4/dist/umd/index.js"></script>
+  <script src="deck.js"></script>
+  <script>
+    window.renderRedesDeck({
+      id: "bloque-4",
+      title: "Bloque 4 (S13–S15): Reproducibilidad, Perfilado y Decisión",
+      slides: [
+        {
+          phase: "portada",
+          navTitle: "Portada y Mapa (S13–S15)",
+          time: "Bloque 4 · Primeros 60 min/clase",
+          title: "Bloque 4: Reproducibilidad, Perfilado y Criterio Modelo vs. LLM",
+          lead: "Material expositivo inicial (60 min por sesión) para cerrar la asignatura con rigor experimental y criterio de entrega hacia Despliegue.",
+          boxes: [
+            {
+              heading: "Semanas del Bloque 4",
+              items: [
+                "S13 · Reproducibilidad: semillas, determinismo CUDA y tracking de experimentos.",
+                "S14 · Perfilado de entrenamiento e inferencia: cómputo vs. memoria.",
+                "S15 · Comparativa rigurosa: modelo compacto/especializado vs. LLM."
+              ]
+            },
+            {
+              heading: "Salida hacia el Path",
+              items: [
+                "Modelo perfilado con métricas reproducibles, presupuesto de VRAM y latencia.",
+                "Criterio argumentado para elegir serving local, destilación o API cloud."
+              ]
+            }
+          ]
+        },
+        {
+          phase: "definir",
+          navTitle: "S13 · Reproducibilidad",
+          time: "Semana 13 · 60 min",
+          title: "Definir: Reproducibilidad Experimental y Trazabilidad",
+          lead: "Un resultado de Deep Learning sin control de semillas, hash de datos y registro de hiperparámetros no es auditable ni comparable.",
+          boxes: [
+            {
+              heading: "Cuatro pilares de reproducibilidad",
+              items: [
+                "Control de aleatoriedad: semillas en Python, NumPy, PyTorch y kernels CUDA.",
+                "Inmutabilidad del entorno: pyproject.toml + uv.lock + imagen Docker.",
+                "Versionado de dataset y particiones (train/val/test sin fugas).",
+                "Registro sistemático de métricas, curvas de pérdida y artefactos."
+              ]
+            }
+          ],
+          diagram: {
+            defaultNote: "Haz clic en cada componente del experimento reproducible.",
+            nodes: [
+              { id: "seed", position: { x: 20, y: 80 }, data: { label: "Semillas + Config", sub: "Pydantic / YAML", color: "#00A8E0", detail: "Fija hiperparámetros y semillas en un contrato tipado." } },
+              { id: "data", position: { x: 245, y: 80 }, data: { label: "Dataset Versionado", sub: "Hash SHA-256", color: "#E9572B", detail: "Garantiza que dos corridas evalúen exactamente los mismos splits." } },
+              { id: "run", position: { x: 470, y: 80 }, data: { label: "Corrida Perfilada", sub: "PyTorch + Profiler", color: "#FF8A00", detail: "Registra pérdida, latencia y consumo pico de VRAM." } },
+              { id: "reg", position: { x: 695, y: 80 }, data: { label: "Registro + Checkpoint", sub: "Artefacto auditable", color: "#3763A9", detail: "Entrega el peso cuantizado listo para el Gateway de Despliegue." } }
+            ],
+            edges: [
+              { id: "r1", source: "seed", target: "data", animated: true, style: { stroke: "#00A8E0", strokeWidth: 2 } },
+              { id: "r2", source: "data", target: "run", animated: true, style: { stroke: "#E9572B", strokeWidth: 2 } },
+              { id: "r3", source: "run", target: "reg", animated: true, style: { stroke: "#FF8A00", strokeWidth: 2 } }
+            ]
+          }
+        },
+        {
+          phase: "idear",
+          navTitle: "S14 · Perfilado y Cuellos",
+          time: "Semana 14 · 60 min",
+          title: "Idear: Perfilado y Detección de Cuellos de Botella",
+          lead: "La optimización sin medición optimiza el lugar equivocado: hay que distinguir si la GPU espera datos, memoria HBM o cómputo.",
+          equation: "$$\\text{Intensidad Aritmética} = \\frac{\\text{FLOPs ejecutados}}{\\text{Bytes transferidos (HBM)}} \\quad \\text{(Compute-bound vs. Memory-bound)}$$",
+          boxes: [
+            {
+              heading: "Cuellos típicos en PyTorch y Transformers",
+              items: [
+                "DataLoader CPU-bound: GPU ociosa esperando lectura o preprocesamiento.",
+                "Memory-bandwidth bound (decoding autorregresivo): batch=1 lee pesos completos por token.",
+                "Overhead de lanzamiento de kernels: resuelto con torch.compile y fusión de operadores."
+              ]
+            }
+          ]
+        },
+        {
+          phase: "evaluar",
+          navTitle: "S15 · Modelo Compacto vs. LLM",
+          time: "Semana 15 · 60 min",
+          title: "Evaluar: Criterio de Decisión — Modelo Compacto vs. LLM",
+          lead: "No todo problema requiere un modelo de frontera: argumentar la arquitectura exige comparar precisión, latencia, privacidad y costo.",
+          boxes: [
+            {
+              heading: "Cuándo elegir Modelo Compacto / Especializado",
+              items: [
+                "Tareas acotadas (clasificación, extracción, series) con datos etiquetados.",
+                "Latencia estricta (<50 ms), despliegue on-premise o edge, bajo costo por consulta."
+              ]
+            },
+            {
+              heading: "Cuándo elegir LLM + RAG / Agentes",
+              items: [
+                "Razonamiento abierto, síntesis multimodal o interacción con herramientas (MCP).",
+                "Estrategia híbrida: destilación de trazas de LLM hacia modelos compactos."
+              ]
+            }
+          ],
+          diagram: {
+            defaultNote: "Haz clic en cada criterio para evaluar la ruta hacia Despliegue.",
+            nodes: [
+              { id: "req", position: { x: 20, y: 90 }, data: { label: "Requisitos del Caso", sub: "SLA, privacidad, costo", color: "#00A8E0", detail: "Define restricciones reales antes de elegir arquitectura." } },
+              { id: "small", position: { x: 280, y: 30 }, data: { label: "Modelo Compacto / LoRA", sub: "ONNX / vLLM local", color: "#4DB922", detail: "Latencia predecible, menor huella energética y control total de datos." } },
+              { id: "llm", position: { x: 280, y: 155 }, data: { label: "LLM + RAG / Agentes", sub: "LiteLLM Gateway", color: "#FF8A00", detail: "Mayor generalización; requiere evaluación continua y guardrails." } },
+              { id: "dep", position: { x: 560, y: 90 }, data: { label: "Despliegue (OBL 04)", sub: "Serving + Observabilidad", color: "#3763A9", detail: "Recibe el modelo validado y lo opera con trazas y arneses." } }
+            ],
+            edges: [
+              { id: "e1", source: "req", target: "small", animated: true, style: { stroke: "#4DB922", strokeWidth: 2 } },
+              { id: "e2", source: "req", target: "llm", animated: true, style: { stroke: "#FF8A00", strokeWidth: 2 } },
+              { id: "e3", source: "small", target: "dep", style: { stroke: "#4DB922", strokeWidth: 2 } },
+              { id: "e4", source: "llm", target: "dep", style: { stroke: "#FF8A00", strokeWidth: 2 } }
+            ]
+          }
+        }
+      ]
+    });
+  </script>
+</body>
+</html>

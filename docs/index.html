@@ -879,6 +879,34 @@
         e(
           "section",
           { className: "section-wrap" },
+          e("h3", { className: "section-title" }, "Presentaciones por Bloque · Redes Neuronales y Deep Learning (Primeros 60 min/clase)"),
+          e(
+            "div",
+            { className: "path-strip" },
+            [
+              { href: "redes-dl/bloque-1.html", color: "#00A8E0", kicker: "Bloque 1 · S1–S3 → Hito 1", title: "MLP, CNN y Modelos Secuenciales", desc: "Backprop, AdamW, ResNet, RNN/LSTM y diagramas interactivos." },
+              { href: "redes-dl/bloque-2.html", color: "#E9572B", kicker: "Bloque 2 · S5–S7 → Hito 2", title: "Atención, Transformers y LLMs", desc: "Q/K/V, Multi-Head, RoPE, tokenización y Scaling Laws." },
+              { href: "redes-dl/bloque-3.html", color: "#FF8A00", kicker: "Bloque 3 · S9–S11 → Hito 3", title: "LoRA, Cuantización y Distribuido", desc: "QLoRA, INT4/AWQ, DDP/FSDP y presupuesto de VRAM." },
+              { href: "redes-dl/bloque-4.html", color: "#3763A9", kicker: "Bloque 4 · S13–S15 → Hito 4", title: "Reproducibilidad, Perfilado y Decisión", desc: "Semillas, intensidad aritmética y Modelo Compacto vs. LLM." }
+            ].map((d, i) =>
+              e(
+                "a",
+                {
+                  key: i,
+                  href: d.href,
+                  className: "path-step",
+                  style: { borderTopColor: d.color, textDecoration: "none", display: "block" }
+                },
+                e("div", { className: "step-kicker", style: { color: d.color } }, d.kicker),
+                e("h4", null, d.title),
+                e("p", null, d.desc)
+              )
+            )
+          )
+        ),
+        e(
+          "section",
+          { className: "section-wrap" },
           e("h3", { className: "section-title" }, "Construcción Progresiva del Path (M0 → M5 + Capstone)"),
           e(
             "div",

@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bloque 2 · Atención, Transformers y LLMs</title>
+  <link rel="stylesheet" href="https://unpkg.com/reactflow@11.11.4/dist/style.css" />
+  <link rel="stylesheet" href="deck.css" />
+  <script>window.MathJax = { tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] } };</script>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+</head>
+<body>
+  <div id="root"></div>
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/reactflow@11.11.4/dist/umd/index.js"></script>
+  <script src="deck.js"></script>
+  <script>
+    window.renderRedesDeck({
+      id: "bloque-2",
+      title: "Bloque 2 (S5–S7): Atención, Transformers y LLMs",
+      slides: [
+        {
+          phase: "portada",
+          navTitle: "Portada y Mapa (S5–S7)",
+          time: "Bloque 2 · Primeros 60 min/clase",
+          title: "Bloque 2: Mecanismo de Atención, Transformers y LLMs",
+          lead: "Material expositivo inicial (60 min por sesión) para entender la geometría Q/K/V, la arquitectura Transformer y los fundamentos de modelos de lenguaje.",
+          boxes: [
+            {
+              heading: "Semanas del Bloque 2",
+              items: [
+                "S5 · Atención Q/K/V y autoatención multi-cabeza.",
+                "S6 · Bloque Transformer, codificación posicional y variantes.",
+                "S7 · Tokenización, embeddings, ventana de contexto y leyes de escalamiento."
+              ]
+            },
+            {
+              heading: "Conexión con el Path",
+              items: [
+                "Explica el costo cuadrático O(N²) y el uso de KV-cache en inferencia.",
+                "Prepara la base teórica para LoRA y cuantización en el Bloque 3."
+              ]
+            }
+          ]
+        },
+        {
+          phase: "empatizar",
+          navTitle: "S5 · Atención Q, K, V",
+          time: "Semana 5 · 60 min",
+          title: "Empatizar y Definir: Atención por Producto Punto Escalado",
+          lead: "En lugar de comprimir toda la secuencia en un vector fijo, cada token consulta dinámicamente a todos los demás en paralelo.",
+          equation: "$$\\operatorname{Attention}(Q, K, V) = \\operatorname{softmax}\\left(\\frac{Q K^{\\top}}{\\sqrt{d_k}}\\right) V$$",
+          boxes: [
+            {
+              heading: "¿Por qué escalar por √d_k?",
+              items: [
+                "Sin escalamiento, la varianza del producto punto crece como d_k.",
+                "Valores extremos saturan la función softmax y anulan el gradiente."
+              ]
+            },
+            {
+              heading: "Multi-Head Attention",
+              items: [
+                "h cabezas proyectan Q, K, V a subespacios distintos en paralelo.",
+                "Permite atender relaciones sintácticas, posicionales y semánticas a la vez."
+              ]
+            }
+          ],
+          diagram: {
+            defaultNote: "Haz clic en Q, K, V o Softmax para revisar dimensiones y flujo de datos.",
+            nodes: [
+              { id: "x", position: { x: 20, y: 90 }, data: { label: "Embeddings X", sub: "[N, d_model]", color: "#00A8E0", detail: "Secuencia completa de N tokens proyectada en paralelo." } },
+              { id: "qkv", position: { x: 250, y: 90 }, data: { label: "Proyecciones Q, K, V", sub: "W_Q, W_K, W_V", color: "#E9572B", detail: "Q busca, K indexa y V transporta el contenido ponderado." } },
+              { id: "scores", position: { x: 480, y: 90 }, data: { label: "Scores + Máscara Causal", sub: "QK^T / √d_k [N×N]", color: "#4DB922", detail: "En decoders, la máscara triangular -∞ impide ver tokens futuros." } },
+              { id: "out", position: { x: 710, y: 90 }, data: { label: "Salida Contextual", sub: "Pesos × V → W_O", color: "#3763A9", detail: "Concatena las h cabezas y proyecta de regreso a d_model." } }
+            ],
+            edges: [
+              { id: "a1", source: "x", target: "qkv", animated: true, style: { stroke: "#00A8E0", strokeWidth: 2 } },
+              { id: "a2", source: "qkv", target: "scores", animated: true, style: { stroke: "#E9572B", strokeWidth: 2 } },
+              { id: "a3", source: "scores", target: "out", animated: true, style: { stroke: "#4DB922", strokeWidth: 2 } }
+            ]
+          }
+        },
+        {
+          phase: "idear",
+          navTitle: "S6 · Bloque Transformer",
+          time: "Semana 6 · 60 min",
+          title: "Idear: Bloque Transformer, Posición y Variantes",
+          lead: "La autoatención es equivariante a permutaciones; el orden se inyecta explícitamente mediante codificación posicional (sinusoidal o RoPE).",
+          equation: "$$h' = x + \\operatorname{MHA}(\\operatorname{LN}(x)), \\qquad y = h' + \\operatorname{FFN}(\\operatorname{LN}(h'))$$",
+          boxes: [
+            {
+              heading: "Anatomía del bloque moderno (Pre-LN)",
+              items: [
+                "Pre-LayerNorm / RMSNorm estabiliza el entrenamiento profundo.",
+                "FFN (SwiGLU) actúa token por token concentrando capacidad paramétrica.",
+                "RoPE codifica posiciones relativas rotando Q y K."
+              ]
+            },
+            {
+              heading: "Tres familias arquitectónicas",
+              items: [
+                "Encoder-only (BERT): representación bidireccional y embeddings.",
+                "Decoder-only (Llama/Qwen/GPT): generación autorregresiva.",
+                "Visión y Series (ViT/PatchTST): parches como tokens."
+              ]
+            }
+          ]
+        },
+        {
+          phase: "evaluar",
+          navTitle: "S7 · LLMs y Scaling Laws",
+          time: "Semana 7 · 60 min",
+          title: "Prototipar y Evaluar: Tokenización, Contexto y Leyes de Escalamiento",
+          lead: "El desempeño de un LLM preentrenado escala predeciblemente con parámetros N, tokens de entrenamiento D y cómputo C.",
+          equation: "$$\\mathcal{L}(N, D) \\approx E + \\frac{A}{N^\\alpha} + \\frac{B}{D^\\beta}$$",
+          boxes: [
+            {
+              heading: "De texto a logits",
+              items: [
+                "BPE / SentencePiece equilibra tamaño de vocabulario y longitud de secuencia.",
+                "Ventana de contexto limitada por memoria O(N²) y tamaño del KV-cache.",
+                "Criterio Chinchilla: equilibrar tamaño de modelo N y tokens D (~20 tokens/parámetro)."
+              ]
+            }
+          ],
+          diagram: {
+            defaultNote: "Haz clic en cada etapa del pipeline autorregresivo de un LLM.",
+            nodes: [
+              { id: "tok", position: { x: 20, y: 80 }, data: { label: "Tokenizador (BPE)", sub: "Texto → IDs", color: "#00A8E0", detail: "Convierte texto en subpalabras; afecta directamente costo y latencia." } },
+              { id: "emb", position: { x: 245, y: 80 }, data: { label: "Embeddings + RoPE", sub: "IDs → Vectores", color: "#E9572B", detail: "Asigna vectores densos e inyecta posición relativa." } },
+              { id: "dec", position: { x: 470, y: 80 }, data: { label: "L Bloques Decoder", sub: "KV-Cache activo", color: "#FF8A00", detail: "Reutiliza K y V previos para generar 1 token por paso sin recomputar todo." } },
+              { id: "head", position: { x: 695, y: 80 }, data: { label: "LM Head + Sampling", sub: "Logits → Siguiente token", color: "#3763A9", detail: "Temperatura, top-p y decoding restringido controlan la distribución." } }
+            ],
+            edges: [
+              { id: "l1", source: "tok", target: "emb", animated: true, style: { stroke: "#00A8E0", strokeWidth: 2 } },
+              { id: "l2", source: "emb", target: "dec", animated: true, style: { stroke: "#E9572B", strokeWidth: 2 } },
+              { id: "l3", source: "dec", target: "head", animated: true, style: { stroke: "#FF8A00", strokeWidth: 2 } }
+            ]
+          }
+        }
+      ]
+    });
+  </script>
+</body>
+</html>

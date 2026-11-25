@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bloque 1 · Redes Neuronales y Deep Learning</title>
+  <link rel="stylesheet" href="https://unpkg.com/reactflow@11.11.4/dist/style.css" />
+  <link rel="stylesheet" href="deck.css" />
+  <script>window.MathJax = { tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] } };</script>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+</head>
+<body>
+  <div id="root"></div>
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/reactflow@11.11.4/dist/umd/index.js"></script>
+  <script src="deck.js"></script>
+  <script>
+    window.renderRedesDeck({
+      id: "bloque-1",
+      title: "Bloque 1 (S1–S3): MLP, CNN y Modelos Secuenciales",
+      slides: [
+        {
+          phase: "portada",
+          navTitle: "Portada y Mapa (S1–S3)",
+          time: "Bloque 1 · Primeros 60 min/clase",
+          title: "Bloque 1: De MLP a CNN y Modelos Secuenciales",
+          lead: "Material expositivo inicial (60 min por sesión) bajo Design Thinking para comprender cómo fluyen las representaciones y gradientes antes de usar librerías.",
+          boxes: [
+            {
+              heading: "Semanas del Bloque 1",
+              items: [
+                "S1 · Del perceptrón al MLP: activación, backprop, autograd y AdamW.",
+                "S2 · Redes convolucionales: campo receptivo, ResNet y transfer learning.",
+                "S3 · Modelos secuenciales: RNN, BPTT, LSTM/GRU y series temporales."
+              ]
+            },
+            {
+              heading: "Ejes del diseño",
+              items: [
+                "Empatizar (#00A8E0): por qué colapsa una red profunda sin diagnóstico.",
+                "Definir/Idear (#E9572B / #4DB922): arquitectura mínima antes del framework.",
+                "Prototipar/Evaluar (#FF8A00 / #3763A9): trazado de tensores y gradientes."
+              ]
+            }
+          ]
+        },
+        {
+          phase: "empatizar",
+          navTitle: "S1 · Problema: Gradientes en MLP",
+          time: "Semana 1 · 15 min",
+          title: "Empatizar: ¿Por qué una red profunda deja de aprender?",
+          lead: "Agregar capas sin controlar activaciones e inicialización provoca saturación o explosión de gradientes desde las primeras iteraciones.",
+          equation: "$$\\frac{\\partial \\mathcal{L}}{\\partial W^{(1)}} = \\frac{\\partial \\mathcal{L}}{\\partial \\hat{y}} \\prod_{l=2}^{L} \\operatorname{diag}(\\sigma'(z^{(l)}))\\, W^{(l)\\top}$$",
+          boxes: [
+            {
+              heading: "Síntomas observables en entrenamiento",
+              items: [
+                "Pérdida estancada desde época 1: activaciones saturadas (sigmoide/tanh).",
+                "NaN súbitos en pérdida: tasa de aprendizaje alta o explosión de norma.",
+                "Neuronas muertas en ReLU: gradientes nulos persistentes."
+              ]
+            },
+            {
+              heading: "Criterio de ingeniería",
+              items: [
+                "Distinguir entre saber invocar PyTorch y diagnosticar el grafo.",
+                "Inspeccionar varianza de activaciones y norma de gradientes por capa."
+              ]
+            }
+          ]
+        },
+        {
+          phase: "definir",
+          navTitle: "S1 · Forward, Backward y AdamW",
+          time: "Semana 1 · 45 min",
+          title: "Definir e Idear: Grafo Computacional, Backprop y AdamW",
+          lead: "La diferenciación automática descompone cualquier arquitectura en operaciones elementales con regla de la cadena exacta.",
+          equation: "$$\\theta_{t+1} = \\theta_t - \\eta \\left(\\frac{\\hat{m}_t}{\\sqrt{\\hat{v}_t} + \\epsilon} + \\lambda \\theta_t\\right)$$",
+          diagram: {
+            defaultNote: "Haz clic en cada nodo para inspeccionar su rol en el paso Forward y Backward.",
+            nodes: [
+              { id: "x", position: { x: 20, y: 80 }, data: { label: "Entrada x", sub: "Batch [B, d_in]", color: "#00A8E0", detail: "Normalizar entradas estabiliza la geometría de la función de pérdida desde el inicio." } },
+              { id: "lin", position: { x: 245, y: 80 }, data: { label: "Capa Lineal + Norm", sub: "z = Wx + b", color: "#E9572B", detail: "Inicialización Xavier/He + LayerNorm/BatchNorm preservan varianza unitaria entre capas." } },
+              { id: "act", position: { x: 470, y: 80 }, data: { label: "Activación No Lineal", sub: "GELU / SiLU / ReLU", color: "#4DB922", detail: "Rompe la linealidad; GELU/SiLU suavizan el gradiente cerca de cero." } },
+              { id: "loss", position: { x: 695, y: 80 }, data: { label: "Pérdida + AdamW", sub: "Backprop + Weight Decay", color: "#3763A9", detail: "AdamW desacopla la regularización L2 del paso adaptativo de gradiente." } }
+            ],
+            edges: [
+              { id: "e1", source: "x", target: "lin", animated: true, style: { stroke: "#00A8E0", strokeWidth: 2 } },
+              { id: "e2", source: "lin", target: "act", animated: true, style: { stroke: "#E9572B", strokeWidth: 2 } },
+              { id: "e3", source: "act", target: "loss", animated: true, style: { stroke: "#4DB922", strokeWidth: 2 } }
+            ]
+          }
+        },
+        {
+          phase: "idear",
+          navTitle: "S2 · Convoluciones y ResNet",
+          time: "Semana 2 · 60 min",
+          title: "Idear: Convolución, Campo Receptivo y Conexiones Residuales",
+          lead: "Las CNN explotan invarianza traslacional y localidad; las conexiones residuales evitan la degradación al escalar profundidad.",
+          equation: "$$y = \\mathcal{F}(x, \\{W_i\\}) + x \\quad \\Longrightarrow \\quad \\frac{\\partial y}{\\partial x} = \\frac{\\partial \\mathcal{F}}{\\partial x} + I$$",
+          boxes: [
+            {
+              heading: "Decisiones de arquitectura CNN",
+              items: [
+                "Kernel, stride y padding controlan resolución espacial y costo FLOPs.",
+                "Campo receptivo crece linealmente con profundidad y stride.",
+                "Transfer learning: congelar backbone temprano y adaptar cabezal."
+              ]
+            }
+          ],
+          diagram: {
+            defaultNote: "Haz clic en el bloque residual o la ruta identidad para ver cómo fluye el gradiente.",
+            nodes: [
+              { id: "in", position: { x: 20, y: 95 }, data: { label: "Tensor x", sub: "[B, C, H, W]", color: "#00A8E0", detail: "Mapa de características de entrada al bloque residual." } },
+              { id: "conv1", position: { x: 260, y: 30 }, data: { label: "Conv 3x3 + BN + ReLU", sub: "Extracción local", color: "#4DB922", detail: "Aprende el residuo F(x) respecto a la identidad." } },
+              { id: "conv2", position: { x: 490, y: 30 }, data: { label: "Conv 3x3 + BN", sub: "Proyección residual", color: "#FF8A00", detail: "Si cambia C o H/W, el atajo usa Conv 1x1 para alinear dimensiones." } },
+              { id: "sum", position: { x: 720, y: 95 }, data: { label: "Suma + ReLU", sub: "y = F(x) + x", color: "#3763A9", detail: "El término identidad +I garantiza una autopista directa para el gradiente." } }
+            ],
+            edges: [
+              { id: "c1", source: "in", target: "conv1", animated: true, style: { stroke: "#4DB922", strokeWidth: 2 } },
+              { id: "c2", source: "conv1", target: "conv2", animated: true, style: { stroke: "#FF8A00", strokeWidth: 2 } },
+              { id: "c3", source: "conv2", target: "sum", animated: true, style: { stroke: "#3763A9", strokeWidth: 2 } },
+              { id: "skip", source: "in", target: "sum", label: "Atajo Identidad (+I)", animated: true, style: { stroke: "#00A8E0", strokeWidth: 2 } }
+            ]
+          }
+        },
+        {
+          phase: "prototipar",
+          navTitle: "S3 · RNN, LSTM/GRU y Series",
+          time: "Semana 3 · 60 min",
+          title: "Prototipar y Evaluar: Modelos Secuenciales y Memoria",
+          lead: "En secuencias y señales temporales, la recurrencia comprime el historial en un estado oculto; las compuertas controlan qué olvidar o retener.",
+          equation: "$$c_t = f_t \\odot c_{t-1} + i_t \\odot \\tilde{c}_t, \\qquad h_t = o_t \\odot \\tanh(c_t)$$",
+          boxes: [
+            {
+              heading: "Del RNN clásico a LSTM/GRU",
+              items: [
+                "BPTT sufre desvanecimiento exponencial con la longitud T de la ventana.",
+                "LSTM introduce celda de memoria aditiva c_t para preservar dependencias largas.",
+                "GRU unifica compuertas de actualización y reinicio con menor número de parámetros."
+              ]
+            },
+            {
+              heading: "Puente hacia el Bloque 2",
+              items: [
+                "Limitación clave: el cómputo secuencial impide paralelizar sobre T.",
+                "Cuello de botella seq2seq en un único vector de contexto motiva la Atención."
+              ]
+            }
+          ],
+          diagram: {
+            defaultNote: "Haz clic en cada compuerta para revisar su función sobre la memoria de largo plazo.",
+            nodes: [
+              { id: "prev", position: { x: 20, y: 80 }, data: { label: "Estado c_{t-1}, h_{t-1}", sub: "Memoria previa", color: "#00A8E0", detail: "Transporta el contexto acumulado hasta el instante t-1." } },
+              { id: "forget", position: { x: 250, y: 25 }, data: { label: "Compuerta Olvido f_t", sub: "σ(W_f [h_{t-1}, x_t])", color: "#E9572B", detail: "Decide qué fracción de la memoria previa se descarta." } },
+              { id: "input", position: { x: 250, y: 140 }, data: { label: "Entrada i_t y c̃_t", sub: "Nueva información", color: "#4DB922", detail: "Filtra qué información del paso actual x_t entra a la celda." } },
+              { id: "out", position: { x: 510, y: 80 }, data: { label: "Celda c_t → Salida h_t", sub: "Estado actualizado", color: "#3763A9", detail: "La suma c_t = f_t ⊙ c_{t-1} + ... evita multiplicar jacobianos repetidos." } }
+            ],
+            edges: [
+              { id: "r1", source: "prev", target: "forget", animated: true, style: { stroke: "#E9572B", strokeWidth: 2 } },
+              { id: "r2", source: "prev", target: "input", animated: true, style: { stroke: "#4DB922", strokeWidth: 2 } },
+              { id: "r3", source: "forget", target: "out", animated: true, style: { stroke: "#3763A9", strokeWidth: 2 } },
+              { id: "r4", source: "input", target: "out", animated: true, style: { stroke: "#3763A9", strokeWidth: 2 } }
+            ]
+          }
+        }
+      ]
+    });
+  </script>
+</body>
+</html>

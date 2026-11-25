@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bloque 3 · LoRA, Cuantización y Distribuido</title>
+  <link rel="stylesheet" href="https://unpkg.com/reactflow@11.11.4/dist/style.css" />
+  <link rel="stylesheet" href="deck.css" />
+  <script>window.MathJax = { tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] } };</script>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+</head>
+<body>
+  <div id="root"></div>
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/reactflow@11.11.4/dist/umd/index.js"></script>
+  <script src="deck.js"></script>
+  <script>
+    window.renderRedesDeck({
+      id: "bloque-3",
+      title: "Bloque 3 (S9–S11): LoRA, Cuantización y Distribuido",
+      slides: [
+        {
+          phase: "portada",
+          navTitle: "Portada y Mapa (S9–S11)",
+          time: "Bloque 3 · Primeros 60 min/clase",
+          title: "Bloque 3: Ajuste Fino Eficiente, Cuantización y Distribuido",
+          lead: "Material expositivo inicial (60 min por sesión) para adaptar y entrenar modelos grandes bajo restricciones reales de VRAM y cómputo.",
+          boxes: [
+            {
+              heading: "Semanas del Bloque 3",
+              items: [
+                "S9 · Ajuste por instrucciones, alineación y LoRA / QLoRA.",
+                "S10 · Límites de LLMs (alucinación, costo, huella) y cuantización.",
+                "S11 · Entrenamiento distribuido, precisión mixta y checkpointing."
+              ]
+            },
+            {
+              heading: "Conexión directa con Serving",
+              items: [
+                "Explica cuánta VRAM consumen pesos, gradientes, AdamW y activaciones.",
+                "Conecta directamente con Dockerfile.vllm y LiteLLM en Despliegue."
+              ]
+            }
+          ]
+        },
+        {
+          phase: "empatizar",
+          navTitle: "S9 · LoRA y QLoRA",
+          time: "Semana 9 · 60 min",
+          title: "Empatizar y Definir: Ajuste Fino de Bajo Rango (LoRA / QLoRA)",
+          lead: "Entrenar todos los pesos de un modelo de 7B en FP32 + AdamW exige >100 GB de VRAM; LoRA congela W_0 y aprende solo dos matrices pequeñas.",
+          equation: "$$h = W_0 x + \\Delta W x = W_0 x + \\frac{\\alpha}{r} B A x, \\qquad A \\in \\mathbb{R}^{r \\times k},\\; B \\in \\mathbb{R}^{d \\times r},\\; r \\ll \\min(d, k)$$",
+          diagram: {
+            defaultNote: "Haz clic en los bloques para comparar la rama congelada frente al adaptador entrenable.",
+            nodes: [
+              { id: "x", position: { x: 20, y: 95 }, data: { label: "Activación x", sub: "Entrada a proyección", color: "#00A8E0", detail: "Misma entrada alimenta la matriz base congelada y la rama de bajo rango." } },
+              { id: "w0", position: { x: 265, y: 30 }, data: { label: "Pesos Base W_0", sub: "Congelados (NF4 en QLoRA)", color: "#64748B", detail: "No acumulan gradientes ni estados de AdamW; QLoRA los guarda en 4 bits." } },
+              { id: "ba", position: { x: 265, y: 155 }, data: { label: "Adaptador B · A", sub: "Entrenable (rango r = 8..32)", color: "#4DB922", detail: "Reduce parámetros entrenables en >99% manteniendo capacidad de adaptación." } },
+              { id: "sum", position: { x: 540, y: 95 }, data: { label: "Suma Escalada", sub: "W_0 x + (α/r) B A x", color: "#3763A9", detail: "En inferencia se puede fusionar W = W_0 + (α/r)BA con cero latencia extra." } }
+            ],
+            edges: [
+              { id: "l1", source: "x", target: "w0", style: { stroke: "#64748B", strokeWidth: 2 } },
+              { id: "l2", source: "x", target: "ba", animated: true, style: { stroke: "#4DB922", strokeWidth: 2 } },
+              { id: "l3", source: "w0", target: "sum", style: { stroke: "#64748B", strokeWidth: 2 } },
+              { id: "l4", source: "ba", target: "sum", animated: true, style: { stroke: "#4DB922", strokeWidth: 2 } }
+            ]
+          }
+        },
+        {
+          phase: "idear",
+          navTitle: "S10 · Cuantización y Límites",
+          time: "Semana 10 · 60 min",
+          title: "Idear: Cuantización, Alucinación y Costo Energético",
+          lead: "Reducir la precisión numérica de FP16 a INT8/INT4 divide la huella de memoria y acelera la lectura desde HBM hacia los Tensor Cores.",
+          equation: "$$x_q = \\operatorname{clip}\\!\\left(\\operatorname{round}\\left(\\frac{x}{s}\\right) + z,\\; q_{\\min},\\; q_{\\max}\\right), \\qquad \\hat{x} = s (x_q - z)$$",
+          boxes: [
+            {
+              heading: "Esquemas de cuantización",
+              items: [
+                "PTQ (Post-Training Quantization): AWQ / GPTQ calibran escalas por canal.",
+                "GGUF: formato portable para inferencia híbrida CPU/GPU.",
+                "FP8: estándar nativo en GPUs modernas con mínima pérdida de perplejidad."
+              ]
+            },
+            {
+              heading: "Límites estructurales",
+              items: [
+                "Alucinación y sesgo: la calibración estadística no garantiza veracidad factual.",
+                "Huella energética y costo de inferencia exigen elegir el modelo más pequeño viable."
+              ]
+            }
+          ]
+        },
+        {
+          phase: "prototipar",
+          navTitle: "S11 · Entrenamiento Distribuido",
+          time: "Semana 11 · 60 min",
+          title: "Prototipar y Evaluar: Paralelismo, AMP y Checkpointing",
+          lead: "Escalar entrenamiento requiere balancear memoria VRAM entre pesos, gradientes, estados del optimizador y grafo de activaciones.",
+          boxes: [
+            {
+              heading: "Estrategias de paralelismo",
+              items: [
+                "Data Parallel (DDP / FSDP): replica o particiona pesos y divide el batch.",
+                "Tensor / Pipeline Parallel: divide matrices o capas entre múltiples GPUs.",
+                "Precisión mixta (BF16/FP16) + acumulación de gradientes simulan batches grandes."
+              ]
+            }
+          ],
+          diagram: {
+            defaultNote: "Haz clic en cada componente de VRAM para ver qué técnica lo reduce.",
+            nodes: [
+              { id: "pesos", position: { x: 20, y: 40 }, data: { label: "Pesos + Gradientes", sub: "BF16 (2B + 2B / param)", color: "#00A8E0", detail: "AMP en BF16 reduce a la mitad la huella frente a FP32." } },
+              { id: "opt", position: { x: 260, y: 40 }, data: { label: "Estados AdamW", sub: "m, v + copia maestra", color: "#E9572B", detail: "FSDP / ZeRO particionan los estados del optimizador entre GPUs." } },
+              { id: "act", position: { x: 20, y: 165 }, data: { label: "Activaciones Forward", sub: "Escala con batch × seq_len", color: "#FF8A00", detail: "Gradient Checkpointing recomputa activaciones en backward para ahorrar VRAM." } },
+              { id: "sync", position: { x: 260, y: 165 }, data: { label: "All-Reduce / Perfilado", sub: "Comunicación NCCL", color: "#3763A9", detail: "El perfilador detecta si el cuello está en cómputo, HBM o red." } }
+            ],
+            edges: [
+              { id: "d1", source: "pesos", target: "opt", style: { stroke: "#00A8E0", strokeWidth: 2 } },
+              { id: "d2", source: "act", target: "sync", animated: true, style: { stroke: "#FF8A00", strokeWidth: 2 } },
+              { id: "d3", source: "opt", target: "sync", animated: true, style: { stroke: "#E9572B", strokeWidth: 2 } }
+            ]
+          }
+        }
+      ]
+    });
+  </script>
+</body>
+</html>
