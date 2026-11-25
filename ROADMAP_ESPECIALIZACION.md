@@ -1,13 +1,13 @@
 # Roadmap Curricular — Especialización en Aprendizaje Automático mediante IA (UNAL Manizales · Plan 4356)
 
-Este documento articula el plan de estudios de la Especialización con el laboratorio [`LIAUNAL/fullstack-ai-agents-lab`](README.md), integrando un enfoque de **Aprendizaje Profundo Verificable** (motivación, argumentación crítica y resolución de problemas sin descarga cognitiva) con **diseño instruccional ágil para adultos** (Andragogía, *Worked Examples*, ABP y *Design Thinking*).
+Este documento articula el plan de estudios de la Especialización con el laboratorio [`LIAUNAL/fullstack-ai-agents-lab`](README.md), integrando un enfoque de **Aprendizaje Profundo Verificable** (motivación, argumentación crítica y resolución de problemas sin descarga cognitiva) con **diseño ágil** (Andragogía, *Worked Examples*, ABP y *Design Thinking*).
 
 ---
 
 ## 1. Estrategia Pedagógica Base
 
 ### 1.1 Dimensiones del Aprendizaje Profundo
-- **Motivación intrínseca:** Conectar cada unidad con retos reales de ingeniería y despliegue (*Full Deployment Engineering*), preservando la autonomía del estudiante.
+- **Motivación:** Estudiar IA aplicada en 2026 para resolver retos reales de ingeniería y despliegue productivo con impacto tangible.
 - **Argumentación y Pensamiento Crítico:** Defender *trade-offs* arquitectónicos (costo vs. latencia, local vs. cloud, complejidad vs. mantenibilidad) con evidencia empírica y trazas auditables, sin aceptar salidas de IA sin verificación.
 - **Resolución de Problemas:** Construir e instrumentar sistemas desde cero antes de abstraer con librerías, depurar fallos reales y validar cada cambio con pruebas ejecutables.
 
