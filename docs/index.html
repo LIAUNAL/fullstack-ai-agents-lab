@@ -260,24 +260,30 @@
       background: #fff;
       border: 2px solid var(--bl);
       border-radius: 10px;
-      padding: 9px 11px;
-      width: 248px;
+      padding: 10px 12px;
+      width: 270px;
+      overflow: hidden;
+      overflow-wrap: break-word;
       box-shadow: 0 4px 10px rgba(13, 27, 51, 0.08);
       cursor: pointer;
     }
     .rf-node-card.dashed { border-style: dashed; background: #F8FAFC; }
     .rf-node-card.selected { box-shadow: 0 0 0 3px rgba(0, 168, 224, 0.35); }
-    .rf-node-tag { font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.03em; }
-    .rf-node-title { font-size: 0.83rem; font-weight: 700; margin: 2px 0; color: var(--nv); }
-    .rf-node-sub { font-size: 0.71rem; color: var(--mu); margin-bottom: 6px; }
+    .rf-node-tag { font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.03em; line-height: 1.3; }
+    .rf-node-title { font-size: 0.84rem; font-weight: 700; margin: 3px 0; color: var(--nv); line-height: 1.25; }
+    .rf-node-sub { font-size: 0.71rem; color: var(--mu); margin-bottom: 6px; line-height: 1.3; }
     .rf-mod-pills { display: flex; flex-wrap: wrap; gap: 4px; }
     .rf-mod-pill {
-      font-size: 0.64rem;
+      font-size: 0.63rem;
       background: #EEF2F7;
       color: #1E293B;
       padding: 2px 6px;
       border-radius: 4px;
       font-weight: 500;
+      max-width: 100%;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
   </style>
 </head>
@@ -305,7 +311,7 @@
     const e = React.createElement;
     const RF = window.ReactFlow;
     const ReactFlowComp = RF.default || RF.ReactFlow;
-    const { Background, Controls, MiniMap, Handle, Position, ReactFlowProvider } = RF;
+    const { Background, Controls, Handle, Position, ReactFlowProvider } = RF;
 
     const SUBJECTS_DATA = {
       s1_datos: {
@@ -553,40 +559,47 @@
 
     const nodeTypes = { modNode: ModuleNode };
 
+    const edgeLabelProps = {
+      labelBgStyle: { fill: "#FFFFFF", fillOpacity: 0.94 },
+      labelBgPadding: [6, 3],
+      labelBgBorderRadius: 4,
+      labelStyle: { fontSize: 11, fontWeight: 600, fill: "#0D1B33" }
+    };
+
     const SUBJECT_NODES = [
-      { id: "s1_datos", type: "modNode", position: { x: 10, y: 10 }, data: SUBJECTS_DATA.s1_datos },
-      { id: "s1_redes", type: "modNode", position: { x: 10, y: 165 }, data: SUBJECTS_DATA.s1_redes },
-      { id: "s1_elec", type: "modNode", position: { x: 10, y: 325 }, data: SUBJECTS_DATA.s1_elec },
-      { id: "s1_despliegue", type: "modNode", position: { x: 325, y: 95 }, data: SUBJECTS_DATA.s1_despliegue },
-      { id: "s2_ml", type: "modNode", position: { x: 640, y: 10 }, data: SUBJECTS_DATA.s2_ml },
-      { id: "s2_soft", type: "modNode", position: { x: 640, y: 165 }, data: SUBJECTS_DATA.s2_soft },
-      { id: "s2_elecs", type: "modNode", position: { x: 640, y: 325 }, data: SUBJECTS_DATA.s2_elecs }
+      { id: "s1_datos", type: "modNode", position: { x: 20, y: 20 }, data: SUBJECTS_DATA.s1_datos },
+      { id: "s1_redes", type: "modNode", position: { x: 20, y: 255 }, data: SUBJECTS_DATA.s1_redes },
+      { id: "s1_elec", type: "modNode", position: { x: 20, y: 495 }, data: SUBJECTS_DATA.s1_elec },
+      { id: "s1_despliegue", type: "modNode", position: { x: 380, y: 140 }, data: SUBJECTS_DATA.s1_despliegue },
+      { id: "s2_ml", type: "modNode", position: { x: 740, y: 20 }, data: SUBJECTS_DATA.s2_ml },
+      { id: "s2_soft", type: "modNode", position: { x: 740, y: 255 }, data: SUBJECTS_DATA.s2_soft },
+      { id: "s2_elecs", type: "modNode", position: { x: 740, y: 495 }, data: SUBJECTS_DATA.s2_elecs }
     ];
 
     const SUBJECT_EDGES = [
-      { id: "e-d-des", source: "s1_datos", target: "s1_despliegue", label: "Datasets + pgvector", animated: true, style: { stroke: "#00A8E0", strokeWidth: 2 } },
-      { id: "e-r-des", source: "s1_redes", target: "s1_despliegue", label: "LLMs / LoRA / Cuantización", animated: true, style: { stroke: "#FF8A00", strokeWidth: 2 } },
-      { id: "e-d-ml", source: "s1_datos", target: "s2_ml", label: "Features + Contratos", style: { stroke: "#00A8E0", strokeDasharray: "5 5" } },
-      { id: "e-des-ml", source: "s1_despliegue", target: "s2_ml", label: "Métricas y validación", animated: true, style: { stroke: "#E9572B", strokeWidth: 2 } },
-      { id: "e-des-sw", source: "s1_despliegue", target: "s2_soft", label: "MCP + SDD/TDD + CI/CD", animated: true, style: { stroke: "#4DB922", strokeWidth: 2 } }
+      { id: "e-d-des", source: "s1_datos", target: "s1_despliegue", label: "Datasets + pgvector", animated: true, style: { stroke: "#00A8E0", strokeWidth: 2 }, ...edgeLabelProps },
+      { id: "e-r-des", source: "s1_redes", target: "s1_despliegue", label: "LLMs / LoRA / Cuantización", animated: true, style: { stroke: "#FF8A00", strokeWidth: 2 }, ...edgeLabelProps },
+      { id: "e-d-ml", source: "s1_datos", target: "s2_ml", label: "Features + Contratos", style: { stroke: "#00A8E0", strokeDasharray: "5 5" }, ...edgeLabelProps },
+      { id: "e-des-ml", source: "s1_despliegue", target: "s2_ml", label: "Métricas y validación", animated: true, style: { stroke: "#E9572B", strokeWidth: 2 }, ...edgeLabelProps },
+      { id: "e-des-sw", source: "s1_despliegue", target: "s2_soft", label: "MCP + SDD/TDD + CI/CD", animated: true, style: { stroke: "#4DB922", strokeWidth: 2 }, ...edgeLabelProps }
     ];
 
     const PATH_NODES = [
-      { id: "m0_datos", type: "modNode", position: { x: 10, y: 30 }, data: PATH_BUILD_DATA.m0_datos },
-      { id: "m1_arch", type: "modNode", position: { x: 10, y: 205 }, data: PATH_BUILD_DATA.m1_arch },
-      { id: "m2_gateway", type: "modNode", position: { x: 320, y: 30 }, data: PATH_BUILD_DATA.m2_gateway },
-      { id: "m3_backend", type: "modNode", position: { x: 320, y: 205 }, data: PATH_BUILD_DATA.m3_backend },
-      { id: "m4_ux", type: "modNode", position: { x: 635, y: 30 }, data: PATH_BUILD_DATA.m4_ux },
-      { id: "m5_ops", type: "modNode", position: { x: 635, y: 205 }, data: PATH_BUILD_DATA.m5_ops }
+      { id: "m0_datos", type: "modNode", position: { x: 20, y: 20 }, data: PATH_BUILD_DATA.m0_datos },
+      { id: "m1_arch", type: "modNode", position: { x: 20, y: 265 }, data: PATH_BUILD_DATA.m1_arch },
+      { id: "m2_gateway", type: "modNode", position: { x: 375, y: 20 }, data: PATH_BUILD_DATA.m2_gateway },
+      { id: "m3_backend", type: "modNode", position: { x: 375, y: 265 }, data: PATH_BUILD_DATA.m3_backend },
+      { id: "m4_ux", type: "modNode", position: { x: 730, y: 20 }, data: PATH_BUILD_DATA.m4_ux },
+      { id: "m5_ops", type: "modNode", position: { x: 730, y: 265 }, data: PATH_BUILD_DATA.m5_ops }
     ];
 
     const PATH_EDGES = [
-      { id: "p-0-2", source: "m0_datos", target: "m2_gateway", label: "Contratos + Datos", animated: true, style: { stroke: "#00A8E0", strokeWidth: 2 } },
-      { id: "p-1-3", source: "m1_arch", target: "m3_backend", label: "Ports + SDD/TDD", animated: true, style: { stroke: "#4DB922", strokeWidth: 2 } },
-      { id: "p-2-3", source: "m2_gateway", target: "m3_backend", label: "LiteLLM / vLLM", animated: true, style: { stroke: "#FF8A00", strokeWidth: 2 } },
-      { id: "p-3-4", source: "m3_backend", target: "m4_ux", label: "SSE + HITL", animated: true, style: { stroke: "#3763A9", strokeWidth: 2 } },
-      { id: "p-4-5", source: "m4_ux", target: "m5_ops", label: "Trazas + Regresión", animated: true, style: { stroke: "#E9572B", strokeWidth: 2 } },
-      { id: "p-3-5", source: "m3_backend", target: "m5_ops", label: "Langfuse + Promptfoo", style: { stroke: "#0D1B33", strokeDasharray: "4 4" } }
+      { id: "p-0-2", source: "m0_datos", target: "m2_gateway", label: "Contratos + Datos", animated: true, style: { stroke: "#00A8E0", strokeWidth: 2 }, ...edgeLabelProps },
+      { id: "p-1-3", source: "m1_arch", target: "m3_backend", label: "Ports + SDD/TDD", animated: true, style: { stroke: "#4DB922", strokeWidth: 2 }, ...edgeLabelProps },
+      { id: "p-2-3", source: "m2_gateway", target: "m3_backend", label: "LiteLLM / vLLM", animated: true, style: { stroke: "#FF8A00", strokeWidth: 2 }, ...edgeLabelProps },
+      { id: "p-3-4", source: "m3_backend", target: "m4_ux", label: "SSE + HITL", animated: true, style: { stroke: "#3763A9", strokeWidth: 2 }, ...edgeLabelProps },
+      { id: "p-4-5", source: "m4_ux", target: "m5_ops", label: "Trazas + Regresión", animated: true, style: { stroke: "#E9572B", strokeWidth: 2 }, ...edgeLabelProps },
+      { id: "p-3-5", source: "m3_backend", target: "m5_ops", label: "Langfuse + Promptfoo", style: { stroke: "#0D1B33", strokeDasharray: "4 4" }, ...edgeLabelProps }
     ];
 
     function App() {
@@ -669,8 +682,7 @@
                   onNodeClick: (_, node) => setSelectedId(node.id)
                 },
                 e(Background, { gap: 18, color: "#E2E8F0" }),
-                e(Controls, null),
-                e(MiniMap, { nodeColor: (n) => (n.data && n.data.color) || "#3763A9" })
+                e(Controls, null)
               )
             )
           ),
