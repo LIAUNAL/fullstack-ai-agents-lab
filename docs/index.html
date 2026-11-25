@@ -30,7 +30,7 @@
     header {
       background: linear-gradient(135deg, var(--nv) 0%, var(--nv2) 100%);
       color: #fff;
-      padding: 18px 24px;
+      padding: 16px 24px;
       border-bottom: 4px solid var(--cy);
       display: flex;
       flex-wrap: wrap;
@@ -38,8 +38,8 @@
       align-items: center;
       gap: 12px;
     }
-    header h1 { margin: 0; font-size: 1.22rem; font-weight: 700; }
-    header p { margin: 4px 0 0; font-size: 0.84rem; color: #C7D7F2; }
+    header h1 { margin: 0; font-size: 1.2rem; font-weight: 700; }
+    header p { margin: 4px 0 0; font-size: 0.83rem; color: #C7D7F2; }
     .pill-row { display: flex; flex-wrap: wrap; gap: 6px; }
     .pill {
       font-size: 0.72rem;
@@ -48,16 +48,44 @@
       border-radius: 999px;
       color: #fff;
     }
+    .toolbar {
+      background: var(--paper);
+      border-bottom: 1px solid var(--ln);
+      padding: 10px 24px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+    .tab-group { display: flex; gap: 8px; flex-wrap: wrap; }
+    .tab-btn {
+      border: 1px solid var(--ln);
+      background: #F8FAFC;
+      color: var(--nv);
+      padding: 7px 14px;
+      border-radius: 8px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .tab-btn.active {
+      background: var(--nv);
+      color: #fff;
+      border-color: var(--nv);
+    }
+    .hint { font-size: 0.78rem; color: var(--mu); }
     .layout {
       display: grid;
-      grid-template-columns: 1fr 390px;
-      height: 64vh;
-      min-height: 500px;
+      grid-template-columns: 1fr 410px;
+      height: 66vh;
+      min-height: 520px;
       border-bottom: 1px solid var(--ln);
     }
-    @media (max-width: 960px) {
+    @media (max-width: 980px) {
       .layout { grid-template-columns: 1fr; height: auto; }
-      #flow-wrap { height: 480px; }
+      #flow-wrap { height: 500px; }
     }
     #flow-wrap { width: 100%; height: 100%; background: #F8FAFC; }
     .sidebar {
@@ -78,17 +106,46 @@
     }
     .sidebar h3 {
       margin: 14px 0 6px;
-      font-size: 0.78rem;
+      font-size: 0.76rem;
       text-transform: uppercase;
       letter-spacing: 0.04em;
       color: var(--mu);
     }
-    .sidebar ul { margin: 0; padding-left: 18px; font-size: 0.85rem; line-height: 1.5; }
-    .sidebar p { margin: 0 0 8px; font-size: 0.86rem; line-height: 1.45; }
-    .strategy {
-      max-width: 1280px;
+    .sidebar ul, .sidebar ol { margin: 0; padding-left: 18px; font-size: 0.84rem; line-height: 1.5; }
+    .sidebar p { margin: 0 0 8px; font-size: 0.85rem; line-height: 1.45; }
+    .section-wrap {
+      max-width: 1320px;
       margin: 0 auto;
-      padding: 22px 24px 40px;
+      padding: 22px 24px 10px;
+    }
+    .section-title {
+      margin: 0 0 12px;
+      font-size: 1rem;
+      color: var(--nv);
+      font-weight: 700;
+    }
+    .path-strip {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(195px, 1fr));
+      gap: 12px;
+    }
+    .path-step {
+      background: var(--paper);
+      border: 1px solid var(--ln);
+      border-top: 4px solid var(--bl);
+      border-radius: 10px;
+      padding: 12px 14px;
+      cursor: pointer;
+      transition: transform 0.12s ease;
+    }
+    .path-step:hover { transform: translateY(-2px); }
+    .path-step .step-kicker { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; }
+    .path-step h4 { margin: 4px 0 6px; font-size: 0.88rem; color: var(--nv); }
+    .path-step p { margin: 0; font-size: 0.78rem; color: var(--mu); line-height: 1.4; }
+    .strategy {
+      max-width: 1320px;
+      margin: 0 auto;
+      padding: 18px 24px 40px;
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
       gap: 16px;
@@ -101,7 +158,7 @@
       box-shadow: 0 2px 6px rgba(13, 27, 51, 0.04);
     }
     .card h3 { margin: 0 0 8px; font-size: 0.98rem; color: var(--nv); }
-    .card p, .card li { font-size: 0.85rem; line-height: 1.5; color: #2D3748; }
+    .card p, .card li { font-size: 0.84rem; line-height: 1.5; color: #2D3748; }
     .card ul { margin: 6px 0 0; padding-left: 18px; }
     .dt-grid { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
     .dt-chip {
@@ -116,25 +173,31 @@
       border: 2px solid var(--bl);
       border-radius: 10px;
       padding: 10px 12px;
-      width: 230px;
+      width: 265px;
       box-shadow: 0 4px 10px rgba(13, 27, 51, 0.08);
       cursor: pointer;
     }
-    .rf-node-card.dashed {
-      border-style: dashed;
-      background: #F8FAFC;
-    }
+    .rf-node-card.dashed { border-style: dashed; background: #F8FAFC; }
     .rf-node-card.selected { box-shadow: 0 0 0 3px rgba(0, 168, 224, 0.35); }
-    .rf-node-tag { font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; }
-    .rf-node-title { font-size: 0.85rem; font-weight: 700; margin: 3px 0; color: var(--nv); }
-    .rf-node-sub { font-size: 0.73rem; color: var(--mu); }
+    .rf-node-tag { font-size: 0.66rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; }
+    .rf-node-title { font-size: 0.84rem; font-weight: 700; margin: 3px 0; color: var(--nv); }
+    .rf-node-sub { font-size: 0.72rem; color: var(--mu); margin-bottom: 6px; }
+    .rf-mod-pills { display: flex; flex-wrap: wrap; gap: 4px; }
+    .rf-mod-pill {
+      font-size: 0.65rem;
+      background: #EEF2F7;
+      color: #1E293B;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-weight: 500;
+    }
   </style>
 </head>
 <body>
   <header>
     <div>
-      <h1>Especialización en Aprendizaje Automático mediante IA · Path Curricular (UNAL Plan 4356)</h1>
-      <p>Semestre 1 y Semestre 2 · Cadencia 12+4 semanas (3 h/sem) · Aprendizaje Profundo, ABP y Design Thinking</p>
+      <h1>Especialización en Aprendizaje Automático mediante IA · Módulos y Construcción del Path</h1>
+      <p>UNAL Manizales (Plan 4356) · Cadencia 12+4 semanas (3 h/sem) · Aprendizaje Profundo, ABP y Design Thinking</p>
     </div>
     <div class="pill-row">
       <span class="pill" style="background: var(--cy);">1. Empatizar</span>
@@ -156,144 +219,228 @@
     const ReactFlowComp = RF.default || RF.ReactFlow;
     const { Background, Controls, MiniMap, Handle, Position } = RF;
 
-    const COURSE_DATA = {
-      pedagogy: {
-        tag: "Estrategia Pedagógica Transversal",
-        title: "Aprendizaje Profundo + Design Thinking",
-        sub: "Motivación · Argumentación · Resolución",
-        color: "#0D1B33",
-        role: "Modelo instruccional común para adultos con poco tiempo: clases semanales de 3 h (máx. 60 min magistral + 120 min interacción ABP) y consulta asíncrona ágil.",
-        modules: [
-          "Kit Asíncrono (15–20 min): video ≤3 min, infografía, mapa mental y 5 tarjetas",
-          "Worked Examples antes del reto autónomo para evitar descarga cognitiva",
-          "Evaluación por diagnóstico y criterio: predecir ejecución, hallar bugs y argumentar"
-        ],
-        blocks: [
-          "Empatizar (#00A8E0) + Definir (#E9572B): 25 min — caso roto real y reto",
-          "Cápsula Magistral + Worked Example (#4DB922): 35 min (≤60 min expositivos)",
-          "Idear + Prototipar (#FF8A00): 80 min ABP con andamiaje sin entregar solución",
-          "Evaluar (#3763A9): 30 min — diagnóstico de fallos y defensa de trade-offs"
-        ],
-        handoff: "Fortalecimiento verificable de motivación, argumentación y resolución de problemas."
-      },
+    const SUBJECTS_DATA = {
       s1_datos: {
         tag: "Semestre 1 · OBL 01 · SIA 18368",
         title: "Ingeniería de Datos y Big Data",
-        sub: "12+4 sem · Contratos, Pipelines y Linaje",
+        sub: "5 módulos oficiales · Base de datos y linaje",
         color: "#00A8E0",
-        role: "Base de datos del path: enseña ingesta, calidad, almacenamiento distribuido, Feature Stores y gobernanza para sostener modelos en producción.",
-        modules: [
-          "references/Made-With-ML (validación de datos y linaje)",
-          "Contratos Pydantic v2 (M1) + Postgres/pgvector (docker-compose.yml)"
+        pills: ["1. Lakehouse/Parquet", "2. Calidad/Contratos", "3. SQL & NoSQL", "4. Spark/Pipelines", "5. Linaje/Feature Store"],
+        role: "Cimiento del path: transforma datos crudos en conjuntos versionados, confiables y trazables para entrenamiento e inferencia.",
+        units: [
+          "Mód. 1 · Fundamentos y arquitecturas de datos (Warehouse, Lake, Lakehouse, Parquet/ORC/Avro)",
+          "Mód. 2 · Procesamiento y calidad de datos (perfilado, imputación, contratos de esquema)",
+          "Mód. 3 · Bases de datos SQL y NoSQL (SQL analítico, modelado dimensional, particionamiento)",
+          "Mód. 4 · Pipelines y procesamiento distribuido (batch vs. flujo, Spark, orquestación idempotente)",
+          "Mód. 5 · Datos para IA en producción (versionado/linaje, Feature Store, deriva, Ley 1581/2012)"
         ],
+        labLink: ["references/Made-With-ML (validación de datos y linaje)", "Contratos Pydantic v2 (M1)", "Postgres + pgvector (docker-compose.yml)"],
         blocks: [
-          "S1–S3 → S4 (Hito 1): Warehouse/Lakehouse, Parquet/Avro y contratos de calidad",
-          "S5–S7 → S8 (Hito 2): SQL analítico, modelado dimensional y bases NoSQL",
+          "S1–S3 → S4 (Hito 1): Arquitecturas, formatos analíticos y contratos de calidad",
+          "S5–S7 → S8 (Hito 2): SQL analítico, modelado dimensional y NoSQL",
           "S9–S11 → S12 (Hito 3): Pipelines batch/stream, Spark e idempotencia",
-          "S13–S15 → S16 (Hito 4): Versionado/linaje, Feature Store, deriva y Ley 1581/2012"
+          "S13–S15 → S16 (Hito 4): Linaje, Feature Store, deriva y Ley 1581"
         ],
-        handoff: "Datasets versionados, contratos de datos y pipelines listos para DL y Serving."
+        handoff: "Datasets versionados + contratos de esquema + almacenamiento vectorial."
       },
       s1_redes: {
         tag: "Semestre 1 · OBL 03 · SIA 18373",
         title: "Redes Neuronales y Deep Learning",
-        sub: "12+4 sem · Transformers, LoRA y Cuantización",
+        sub: "6 módulos oficiales · Transformers y LLMs",
         color: "#FF8A00",
-        role: "Núcleo de arquitecturas profundas en el path: construcción desde cero en PyTorch hasta Transformers, LLMs, ajuste fino eficiente y perfilado.",
-        modules: [
-          "M2: 02-inference-gateway (puente cuantización, VRAM y huella)",
-          "M3: Fundamentos de embeddings, atención y ventana de contexto",
-          "references/Made-With-ML (semillas y reproducibilidad)"
+        pills: ["1. MLP/Backprop", "2. CNN/ResNet", "3. RNN/LSTM", "4. Transformers", "5. LLMs/LoRA", "6. Distribuido"],
+        role: "Motor de representación: enseña a construir arquitecturas desde cero en PyTorch hasta ajustar LLMs bajo restricciones reales de VRAM.",
+        units: [
+          "Mód. 1 · Del perceptrón al MLP (activación, retropropagación, AdamW, diagnóstico)",
+          "Mód. 2 · Redes convolucionales (LeNet→ResNet/EfficientNet, conexiones residuales, transfer learning)",
+          "Mód. 3 · Modelos secuenciales (RNN, LSTM/GRU, seq2seq, series temporales y señales)",
+          "Mód. 4 · Atención y transformadores (Q/K/V, multi-cabeza, encoder/decoder, visión/series)",
+          "Mód. 5 · Fundamentos de LLMs (tokenización, embeddings, LoRA, cuantización, costo/huella)",
+          "Mód. 6 · Entrenamiento distribuido y optimización (precisión mixta, perfilado, reproducibilidad)"
         ],
+        labLink: ["M2: 02-inference-gateway (puente cuantización y costo)", "M3: Embeddings y ventana de contexto", "Made-With-ML (semillas y métricas)"],
         blocks: [
-          "S1–S3 → S4 (Hito 1): MLP desde cero, CNNs/ResNet y RNN/LSTM/GRU",
-          "S5–S7 → S8 (Hito 2): Atención (Q/K/V), Transformers y fundamentos de LLMs",
+          "S1–S3 → S4 (Hito 1): MLP desde cero, CNNs/ResNet y RNN/LSTM",
+          "S5–S7 → S8 (Hito 2): Atención (Q/K/V), Transformers y fundamentos LLMs",
           "S9–S11 → S12 (Hito 3): LoRA/QLoRA, cuantización y entrenamiento distribuido",
-          "S13–S15 → S16 (Hito 4): Reproducibilidad, perfilado y modelo compacto vs. LLM"
+          "S13–S15 → S16 (Hito 4): Perfilado, reproducibilidad y modelo compacto vs. LLM"
         ],
         handoff: "Modelos profundos / LLMs ajustados y cuantizados con perfil de cómputo."
       },
       s1_despliegue: {
         tag: "Semestre 1 · OBL 04 · SIA 18375",
         title: "Despliegue de Modelos y Agentes IA",
-        sub: "12+4 sem · vLLM, LangGraph, MCP, AgentOps",
+        sub: "5 módulos oficiales · Producción y AgentOps",
         color: "#3763A9",
-        role: "Columna vertebral Full-Stack en producción: MLOps, serving híbrido, RAG/MCP, UX con SSE/HITL, observabilidad y cumplimiento regulatorio.",
-        modules: [
-          "M2: Dockerfile.vllm + litellm_config.yaml + structured outputs",
-          "M3: FastAPI async + LangGraph + servidor MCP",
-          "M4: Next.js SSE + HITL | M5: Langfuse + Promptfoo | capstone/"
+        pills: ["1. MLOps/Registry", "2. Docker/vLLM/Edge", "3. RAG/MCP/Agentes", "4. Eval/Trazas", "5. Seguridad/Ley"],
+        role: "Columna vertebral operativa del path: lleva modelos a producción con serving híbrido, agentes RAG/MCP, UI con HITL, telemetría y gobernanza.",
+        units: [
+          "Mód. 1 · MLOps y ciclo de vida del modelo (registry, CI/CD, canary, shadow, pruebas A/B)",
+          "Mód. 2 · Empaquetado y servicio (Docker, serving síncrono/batch, cuantización, ONNX/edge, vLLM/LiteLLM)",
+          "Mód. 3 · Recuperación aumentada y agentes (vector DB, RAG, tool calling, MCP, Agentic RAG/multiagente)",
+          "Mód. 4 · Evaluación y observabilidad (arneses, LLM-as-a-judge, trayectorias, deriva, costo/latencia)",
+          "Mód. 5 · Seguridad, ética y regulación (prompt injection, menor privilegio, Ley 1581, UE 2024/1689, ISO 42001)"
         ],
+        labLink: ["M2: Dockerfile.vllm + litellm_config.yaml", "M3: FastAPI + LangGraph + MCP", "M4: Next.js SSE + HITL | M5: Langfuse + Promptfoo"],
         blocks: [
           "S1–S3 → S4 (Hito 1): MLOps, model registry, canary/shadow y Docker",
           "S5–S7 → S8 (Hito 2): vLLM, cuantización/ONNX/edge y LiteLLM fallback",
-          "S9–S11 → S12 (Hito 3): pgvector + RAG/Agentic RAG, LangGraph, MCP y UX SSE/HITL",
-          "S13–S15 → S16 (Hito 4): Promptfoo, Langfuse, deriva, seguridad y Ley 1581 / UE 2024/1689 / ISO 42001"
+          "S9–S11 → S12 (Hito 3): pgvector + RAG, LangGraph, MCP y UX SSE/HITL",
+          "S13–S15 → S16 (Hito 4): Promptfoo, Langfuse, deriva, seguridad y regulación"
         ],
-        handoff: "Sistema agéntico desplegado, medible, auditable y con análisis de riesgo/costo."
+        handoff: "Sistema agéntico operable, medible, trazable y auditable en producción."
       },
       s1_elec: {
         tag: "Semestre 1 · Fuera del Path",
         title: "Electiva General (1)",
-        sub: "Complemento electivo del plan",
+        sub: "Complemento electivo del semestre",
         color: "#64748B",
         dashed: true,
-        role: "Asignatura electiva fuera del path núcleo de ingeniería de agentes y despliegue; aporta amplitud disciplinar según la ruta elegida por el estudiante.",
-        modules: ["No acoplada directamente a módulos de fullstack-ai-agents-lab"],
-        blocks: ["Cursa en paralelo durante el Primer Semestre según oferta del plan 4356."],
-        handoff: "Créditos electivos de profundización o contexto."
+        pills: ["Fuera del Path"],
+        role: "Asignatura electiva fuera del path núcleo; amplía la formación según la línea de interés del estudiante.",
+        units: ["Definida por la oferta electiva vigente del Plan 4356."],
+        labLink: ["No acoplada directamente a módulos de fullstack-ai-agents-lab."],
+        blocks: ["Se cursa en paralelo durante el Primer Semestre."],
+        handoff: "Créditos electivos complementarios."
       },
       s2_ml: {
         tag: "Semestre 2 · OBL 02 · SIA 18371",
         title: "Machine Learning (Intro al ML)",
-        sub: "12+4 sem · Rigor Estadístico y Validación",
+        sub: "5 módulos oficiales · Rigor y Validación",
         color: "#E9572B",
-        role: "Consolidación matemática y experimental en el path: modelos clásicos, control de sesgo-varianza, prevención de data leakage e interpretabilidad.",
-        modules: [
-          "references/Made-With-ML (protocolos de validación y métricas)",
-          "Comparativa de modelos tabulares y análisis de interpretabilidad"
+        pills: ["1. Mate/Opt.", "2. Supervisados", "3. No Supervisados", "4. Sesgo-Varianza/CV", "5. Métricas/XAI"],
+        role: "Consolidación analítica en el path: garantiza criterio estadístico, control de fugas de información e interpretabilidad frente a modelos profundos.",
+        units: [
+          "Mód. 1 · Fundamentos matemáticos y estadísticos (álgebra, probabilidad, optimización, riesgo empírico)",
+          "Mód. 2 · Modelos supervisados (regresión, SVM/kernels, árboles/boosting, probabilísticos)",
+          "Mód. 3 · Modelos no supervisados y reducción de dimensionalidad (clustering, GMM/EM, PCA/UMAP)",
+          "Mód. 4 · Regularización, validación y selección (sesgo-varianza, L1/L2, CV sin fugas)",
+          "Mód. 5 · Evaluación, métricas e interpretabilidad (F1/ROC-AUC/PR-AUC, desbalanceo, reproducibilidad)"
         ],
+        labLink: ["references/Made-With-ML (protocolos de validación y métricas)", "Comparativa de baselines clásicos vs. modelos profundos"],
         blocks: [
           "S1–S3 → S4 (Hito 1): Álgebra aplicada, optimización y riesgo empírico",
-          "S5–S7 → S8 (Hito 2): Supervisados (lineales, SVM/kernels, árboles/boosting)",
-          "S9–S11 → S12 (Hito 3): No supervisados (clustering, PCA/UMAP) y regularización/CV",
-          "S13–S15 → S16 (Hito 4): Métricas (F1, PR-AUC, RMSE), desbalanceo e interpretabilidad"
+          "S5–S7 → S8 (Hito 2): Supervisados (lineales, SVM, árboles/boosting)",
+          "S9–S11 → S12 (Hito 3): No supervisados (clustering, PCA/UMAP) y CV",
+          "S13–S15 → S16 (Hito 4): Métricas (F1, PR-AUC, RMSE), desbalanceo y XAI"
         ],
-        handoff: "Criterio estadístico sólido para seleccionar, validar e interpretar modelos."
+        handoff: "Criterio experimental riguroso para validar, comparar y auditar modelos."
       },
       s2_soft: {
         tag: "Semestre 2 · ELE · 3 Créditos",
         title: "Desarrollo de Software con Agentes",
-        sub: "12+4 sem · SDD + TDD + Hexagonal + CI/CD",
+        sub: "6 módulos oficiales · SDD + TDD + MCP + CI/CD",
         color: "#4DB922",
-        role: "Cierre de ingeniería de software y SDLC en el path: dirigir agentes de código sin deuda técnica mediante especificaciones ejecutables, pruebas y CI/CD.",
-        modules: [
-          "M1: 01-software-architecture (Hexagonal, Pydantic v2, MockLLMAdapter)",
-          "M3: Protocolo MCP e ingeniería de contexto",
-          ".github/workflows/agent-ci.yml (ruff, mypy, pytest y métricas DORA)"
+        pills: ["1. Hexagonal", "2. SDD Specs", "3. TDD Contratos", "4. Agentes/MCP", "5. Eval Código", "6. CI/CD & DORA"],
+        role: "Cierre de ingeniería y SDLC en el path: dirige agentes de codificación sin deuda técnica mediante especificaciones, pruebas y puertas de calidad.",
+        units: [
+          "Mód. 1 · Fundamentos de ingeniería de software para IA (SRP, inversión de dependencias, Hexagonal, deuda)",
+          "Mód. 2 · Especificación como fuente de verdad — SDD (requisitos ejecutables, escenarios, trazabilidad)",
+          "Mód. 3 · Pruebas como contrato ejecutable — TDD (rojo-verde-refactor, pirámide, dobles/mocks, mutación)",
+          "Mód. 4 · Desarrollo asistido por agentes (anatomía de agente, ingeniería de contexto, protocolo MCP)",
+          "Mód. 5 · Verificación y revisión asistida (arneses de eval, code review, análisis estático, vulnerabilidades)",
+          "Mód. 6 · Integración y entrega continuas (CI/CD, quality gates, versionado semántico, métricas DORA)"
         ],
+        labLink: ["M1: 01-software-architecture (Hexagonal, Pydantic v2, MockLLMAdapter)", "M3: Protocolo MCP", ".github/workflows/agent-ci.yml (ruff, mypy, pytest)"],
         blocks: [
           "S1–S3 → S4 (Hito 1): Deuda técnica con IA, Arquitectura Hexagonal y SDD",
-          "S5–S7 → S8 (Hito 2): TDD (rojo-verde-refactor), dobles/mocks y propiedades",
-          "S9–S11 → S12 (Hito 3): Agentes de codificación, contexto y protocolo MCP",
-          "S13–S15 → S16 (Hito 4): Revisión asistida, análisis estático, CI/CD y métricas DORA"
+          "S5–S7 → S8 (Hito 2): TDD, dobles/mocks y pruebas de contrato",
+          "S9–S11 → S12 (Hito 3): Agentes de código, contexto y protocolo MCP",
+          "S13–S15 → S16 (Hito 4): Revisión asistida, análisis estático, CI/CD y DORA"
         ],
-        handoff: "Software mantenible, especificado, testeado y gobernado en producción."
+        handoff: "Arquitectura mantenible, especificada, testeada y gobernada en producción."
       },
       s2_elecs: {
         tag: "Semestre 2 · Fuera del Path",
         title: "Dos Electivas (2)",
-        sub: "Complemento electivo del plan",
+        sub: "Complemento electivo del semestre",
         color: "#64748B",
         dashed: true,
-        role: "Dos asignaturas electivas fuera del path núcleo para completar la formación de posgrado según los intereses aplicados del estudiante.",
-        modules: ["No acopladas directamente a módulos de fullstack-ai-agents-lab"],
-        blocks: ["Cursan en paralelo durante el Segundo Semestre según oferta del plan 4356."],
+        pills: ["Fuera del Path"],
+        role: "Dos asignaturas electivas fuera del path núcleo para completar créditos del segundo semestre.",
+        units: ["Definidas por la oferta electiva vigente del Plan 4356."],
+        labLink: ["No acopladas directamente a módulos de fullstack-ai-agents-lab."],
+        blocks: ["Se cursan en paralelo durante el Segundo Semestre."],
         handoff: "Créditos electivos de cierre del programa."
       }
     };
 
-    function CourseNode({ data, selected }) {
+    const PATH_BUILD_DATA = {
+      m0_datos: {
+        tag: "Paso 1 · Datos & Reproducibilidad",
+        title: "M0: Base de Datos y Linaje",
+        sub: "OBL 01 (Datos) + OBL 02 (ML)",
+        color: "#00A8E0",
+        pills: ["Postgres + pgvector", "Pydantic Contracts", "Made-With-ML"],
+        role: "Cómo se construye: OBL 01 aporta pipelines, contratos de esquema y pgvector; OBL 02 aporta validación sin fugas y métricas baseline.",
+        units: ["Contratos de datos Pydantic v2", "Docker Compose (Postgres + pgvector + Redis)", "Protocolo de validación reproducible y prevención de data leakage"],
+        labLink: ["docker-compose.yml", "references/Made-With-ML", "Makefile (infra-up, setup)"],
+        blocks: ["Construcción temprana (Sem 1) + consolidación estadística (Sem 2)"],
+        handoff: "Datos limpios, versionados y listos para modelos y RAG."
+      },
+      m1_arch: {
+        tag: "Paso 2 · Arquitectura & SDLC",
+        title: "M1: Core Hexagonal + SDD/TDD",
+        sub: "ELE (Software con IA)",
+        color: "#4DB922",
+        pills: ["Domain/Ports/Adapters", "SDD", "TDD", "ruff + mypy"],
+        role: "Cómo se construye: ELE aporta Arquitectura Hexagonal, especificaciones ejecutables (SDD), pruebas de contrato (TDD) y CI estricto.",
+        units: ["01-software-architecture/src/domain/models.py", "ports/llm_port.py (Protocol)", "adapters/mock_llm.py + tests deterministas"],
+        labLink: ["modules/01-software-architecture/", ".github/workflows/agent-ci.yml"],
+        blocks: ["Sem 2 · Bloques 1 y 2 de Desarrollo de Software con Agentes"],
+        handoff: "Dominio desacoplado del proveedor LLM, testeable sin APIs externas."
+      },
+      m2_gateway: {
+        tag: "Paso 3 · Serving & Inferencia",
+        title: "M2: Inference Gateway Híbrido",
+        sub: "OBL 03 (Redes/DL) + OBL 04 (Despliegue)",
+        color: "#FF8A00",
+        pills: ["vLLM GPU", "Cuantización", "LiteLLM Fallback", "JSON Estricto"],
+        role: "Cómo se construye: OBL 03 aporta Transformers, LoRA y cuantización; OBL 04 aporta contenerización vLLM, ONNX/edge y enrutamiento LiteLLM.",
+        units: ["Dockerfile.vllm (serving OpenAI-compatible)", "litellm_config.yaml (local Ollama/vLLM → cloud fallback)", "structured_output_demo.py (Pydantic v2)"],
+        labLink: ["modules/02-inference-gateway/", "references/llm-zoomcamp"],
+        blocks: ["Sem 1 · Bloques 2 y 3 de Redes Neuronales y Despliegue"],
+        handoff: "Capa de inferencia resiliente con métricas de TTFT, TPOT y costo."
+      },
+      m3_backend: {
+        tag: "Paso 4 · Backend & Protocolo MCP",
+        title: "M3: Orquestador LangGraph + MCP",
+        sub: "OBL 04 (Despliegue) + ELE (Software con IA)",
+        color: "#3763A9",
+        pills: ["FastAPI Async", "LangGraph", "MCP Server", "SSE Stream"],
+        role: "Cómo se construye: OBL 04 aporta RAG, memoria y multiagente; ELE aporta diseño de herramientas MCP seguras y límites de confianza.",
+        units: ["mcp_server.py (herramientas acotadas con SDK oficial mcp)", "graph.py (LangGraph con checkpointer e interrupción HITL)", "main.py (FastAPI POST /chat/stream SSE)"],
+        labLink: ["modules/03-agent-backend/", "references/GenAI_Agents", "references/ai-agents-for-beginners"],
+        blocks: ["Sem 1 (OBL 04 Bloque 3) + Sem 2 (ELE Bloque 3)"],
+        handoff: "API asíncrona con estado persistente, herramientas MCP y stream SSE."
+      },
+      m4_ux: {
+        tag: "Paso 5 · Interfaz Operativa HITL",
+        title: "M4: Full-Stack UX (Next.js)",
+        sub: "OBL 04 (Despliegue) + ELE (Control Humano)",
+        color: "#E9572B",
+        pills: ["Next.js + TS", "Cliente SSE", "ApprovalCard HITL"],
+        role: "Cómo se construye: conecta el backend SSE con una interfaz que separa el estado de pensamiento/herramientas de la respuesta final y pausa ante acciones críticas.",
+        units: ["useAgentStream.ts (parser SSE en tiempo real)", "ApprovalCard.tsx (aprobar / rechazar Human-in-the-Loop)", "page.tsx (consola operativa)"],
+        labLink: ["modules/04-fullstack-ux/"],
+        blocks: ["Sem 1 (OBL 04 Bloque 3) · UX Agéntica"],
+        handoff: "Control humano explícito y transparencia de ejecución para el usuario."
+      },
+      m5_ops: {
+        tag: "Paso 6 · AgentOps & Capstone",
+        title: "M5 + Capstone: Observabilidad y Cierre",
+        sub: "OBL 04 + ELE + Todas las materias",
+        color: "#0D1B33",
+        pills: ["Langfuse", "Promptfoo", "DORA", "Ley 1581 / AI Act"],
+        role: "Cómo se construye: cierra el ciclo con trazabilidad distribuida, regresión automática de prompts, métricas DORA y cumplimiento ético/regulatorio.",
+        units: ["traced_agent.py (Langfuse @observe)", "promptfooconfig.yaml (golden dataset + aserciones JSON)", "capstone/ARCHITECTURE.md + TODO.md"],
+        labLink: ["modules/05-agentops-observability/", "capstone/"],
+        blocks: ["Sem 1 (OBL 04 Bloque 4) + Sem 2 (ELE Bloque 4)"],
+        handoff: "Sistema Full-Stack End-to-End desplegado, medible y auditable."
+      }
+    };
+
+    function ModuleNode({ data, selected }) {
       return e(
         "div",
         {
@@ -304,39 +451,88 @@
         e("div", { className: "rf-node-tag", style: { color: data.color } }, data.tag),
         e("div", { className: "rf-node-title" }, data.title),
         e("div", { className: "rf-node-sub" }, data.sub),
+        e("div", { className: "rf-mod-pills" }, (data.pills || []).map((p, i) => e("span", { key: i, className: "rf-mod-pill" }, p))),
         e(Handle, { type: "source", position: Position.Right, style: { background: data.color } })
       );
     }
 
-    const nodeTypes = { course: CourseNode };
+    const nodeTypes = { modNode: ModuleNode };
 
-    const initialNodes = [
-      { id: "pedagogy", type: "course", position: { x: 320, y: 10 }, data: COURSE_DATA.pedagogy },
-      { id: "s1_datos", type: "course", position: { x: 20, y: 130 }, data: COURSE_DATA.s1_datos },
-      { id: "s1_redes", type: "course", position: { x: 20, y: 245 }, data: COURSE_DATA.s1_redes },
-      { id: "s1_despliegue", type: "course", position: { x: 320, y: 185 }, data: COURSE_DATA.s1_despliegue },
-      { id: "s1_elec", type: "course", position: { x: 20, y: 365 }, data: COURSE_DATA.s1_elec },
-      { id: "s2_ml", type: "course", position: { x: 640, y: 130 }, data: COURSE_DATA.s2_ml },
-      { id: "s2_soft", type: "course", position: { x: 640, y: 245 }, data: COURSE_DATA.s2_soft },
-      { id: "s2_elecs", type: "course", position: { x: 640, y: 365 }, data: COURSE_DATA.s2_elecs }
+    const SUBJECT_NODES = [
+      { id: "s1_datos", type: "modNode", position: { x: 20, y: 20 }, data: SUBJECTS_DATA.s1_datos },
+      { id: "s1_redes", type: "modNode", position: { x: 20, y: 175 }, data: SUBJECTS_DATA.s1_redes },
+      { id: "s1_elec", type: "modNode", position: { x: 20, y: 345 }, data: SUBJECTS_DATA.s1_elec },
+      { id: "s1_despliegue", type: "modNode", position: { x: 355, y: 105 }, data: SUBJECTS_DATA.s1_despliegue },
+      { id: "s2_ml", type: "modNode", position: { x: 690, y: 20 }, data: SUBJECTS_DATA.s2_ml },
+      { id: "s2_soft", type: "modNode", position: { x: 690, y: 175 }, data: SUBJECTS_DATA.s2_soft },
+      { id: "s2_elecs", type: "modNode", position: { x: 690, y: 345 }, data: SUBJECTS_DATA.s2_elecs }
     ];
 
-    const initialEdges = [
-      { id: "e-p-d", source: "pedagogy", target: "s1_despliegue", animated: true, style: { stroke: "#0D1B33" } },
+    const SUBJECT_EDGES = [
       { id: "e-d-des", source: "s1_datos", target: "s1_despliegue", label: "Datasets + pgvector", animated: true, style: { stroke: "#00A8E0", strokeWidth: 2 } },
       { id: "e-r-des", source: "s1_redes", target: "s1_despliegue", label: "LLMs / LoRA / Cuantización", animated: true, style: { stroke: "#FF8A00", strokeWidth: 2 } },
       { id: "e-d-ml", source: "s1_datos", target: "s2_ml", label: "Features + Contratos", style: { stroke: "#00A8E0", strokeDasharray: "5 5" } },
       { id: "e-des-ml", source: "s1_despliegue", target: "s2_ml", label: "Métricas y validación", animated: true, style: { stroke: "#E9572B", strokeWidth: 2 } },
-      { id: "e-des-sw", source: "s1_despliegue", target: "s2_soft", label: "MCP + CI/CD + SDD/TDD", animated: true, style: { stroke: "#4DB922", strokeWidth: 2 } }
+      { id: "e-des-sw", source: "s1_despliegue", target: "s2_soft", label: "MCP + SDD/TDD + CI/CD", animated: true, style: { stroke: "#4DB922", strokeWidth: 2 } }
+    ];
+
+    const PATH_NODES = [
+      { id: "m0_datos", type: "modNode", position: { x: 20, y: 60 }, data: PATH_BUILD_DATA.m0_datos },
+      { id: "m1_arch", type: "modNode", position: { x: 20, y: 230 }, data: PATH_BUILD_DATA.m1_arch },
+      { id: "m2_gateway", type: "modNode", position: { x: 345, y: 60 }, data: PATH_BUILD_DATA.m2_gateway },
+      { id: "m3_backend", type: "modNode", position: { x: 345, y: 230 }, data: PATH_BUILD_DATA.m3_backend },
+      { id: "m4_ux", type: "modNode", position: { x: 675, y: 60 }, data: PATH_BUILD_DATA.m4_ux },
+      { id: "m5_ops", type: "modNode", position: { x: 675, y: 230 }, data: PATH_BUILD_DATA.m5_ops }
+    ];
+
+    const PATH_EDGES = [
+      { id: "p-0-2", source: "m0_datos", target: "m2_gateway", label: "Contratos + Datos", animated: true, style: { stroke: "#00A8E0", strokeWidth: 2 } },
+      { id: "p-1-3", source: "m1_arch", target: "m3_backend", label: "Ports + SDD/TDD", animated: true, style: { stroke: "#4DB922", strokeWidth: 2 } },
+      { id: "p-2-3", source: "m2_gateway", target: "m3_backend", label: "LiteLLM / vLLM", animated: true, style: { stroke: "#FF8A00", strokeWidth: 2 } },
+      { id: "p-3-4", source: "m3_backend", target: "m4_ux", label: "SSE + HITL", animated: true, style: { stroke: "#3763A9", strokeWidth: 2 } },
+      { id: "p-4-5", source: "m4_ux", target: "m5_ops", label: "Trazas + Regresión", animated: true, style: { stroke: "#E9572B", strokeWidth: 2 } },
+      { id: "p-3-5", source: "m3_backend", target: "m5_ops", label: "Langfuse + Promptfoo", style: { stroke: "#0D1B33", strokeDasharray: "4 4" } }
     ];
 
     function App() {
+      const [view, setView] = React.useState("subjects");
       const [selectedId, setSelectedId] = React.useState("s1_despliegue");
-      const active = COURSE_DATA[selectedId];
+
+      const handleSwitchView = (nextView) => {
+        setView(nextView);
+        setSelectedId(nextView === "subjects" ? "s1_despliegue" : "m3_backend");
+      };
+
+      const dataMap = view === "subjects" ? SUBJECTS_DATA : PATH_BUILD_DATA;
+      const active = dataMap[selectedId] || Object.values(dataMap)[0];
+      const nodes = (view === "subjects" ? SUBJECT_NODES : PATH_NODES).map((n) => ({
+        ...n,
+        selected: n.id === selectedId
+      }));
+      const edges = view === "subjects" ? SUBJECT_EDGES : PATH_EDGES;
 
       return e(
         React.Fragment,
         null,
+        e(
+          "div",
+          { className: "toolbar" },
+          e(
+            "div",
+            { className: "tab-group" },
+            e("button", {
+              type: "button",
+              className: "tab-btn" + (view === "subjects" ? " active" : ""),
+              onClick: () => handleSwitchView("subjects")
+            }, "Vista 1 · Módulos por Asignatura (Sem 1 y Sem 2)"),
+            e("button", {
+              type: "button",
+              className: "tab-btn" + (view === "path" ? " active" : ""),
+              onClick: () => handleSwitchView("path")
+            }, "Vista 2 · Cómo se construye el Path (M0 → M5 + Capstone)")
+          ),
+          e("span", { className: "hint" }, "Haz clic en cualquier nodo para inspeccionar sus módulos oficiales, bloques 12+4 y entregables.")
+        ),
         e(
           "div",
           { className: "layout" },
@@ -346,8 +542,9 @@
             e(
               ReactFlowComp,
               {
-                nodes: initialNodes.map((n) => ({ ...n, selected: n.id === selectedId })),
-                edges: initialEdges,
+                key: view,
+                nodes,
+                edges,
                 nodeTypes,
                 fitView: true,
                 onNodeClick: (_, node) => setSelectedId(node.id)
@@ -363,12 +560,40 @@
             e("span", { className: "badge", style: { background: active.color } }, active.tag),
             e("h2", null, active.title),
             e("p", null, active.role),
-            e("h3", null, "Relación con fullstack-ai-agents-lab"),
-            e("ul", null, active.modules.map((m, i) => e("li", { key: i }, m))),
-            e("h3", null, "Estructura 12+4 semanas (3 h/sem)"),
+            e("h3", null, view === "subjects" ? "Módulos oficiales de la asignatura" : "Artefactos que se construyen"),
+            e("ul", null, active.units.map((u, i) => e("li", { key: i }, u))),
+            e("h3", null, "Acoplamiento con fullstack-ai-agents-lab"),
+            e("ul", null, active.labLink.map((m, i) => e("li", { key: i }, m))),
+            e("h3", null, "Cadencia 12+4 semanas (3 h/sem)"),
             e("ul", null, active.blocks.map((b, i) => e("li", { key: i }, b))),
             e("h3", null, "Aporte al Path"),
             e("p", { style: { fontWeight: 600, color: "#0D1B33" } }, active.handoff)
+          )
+        ),
+        e(
+          "section",
+          { className: "section-wrap" },
+          e("h3", { className: "section-title" }, "Construcción Progresiva del Path (clic para inspeccionar en Vista 2)"),
+          e(
+            "div",
+            { className: "path-strip" },
+            Object.entries(PATH_BUILD_DATA).map(([id, item]) =>
+              e(
+                "div",
+                {
+                  key: id,
+                  className: "path-step",
+                  style: { borderTopColor: item.color },
+                  onClick: () => {
+                    setView("path");
+                    setSelectedId(id);
+                  }
+                },
+                e("div", { className: "step-kicker", style: { color: item.color } }, item.tag),
+                e("h4", null, item.title),
+                e("p", null, item.sub + " · " + item.handoff)
+              )
+            )
           )
         ),
         e(
