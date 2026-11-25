@@ -38,8 +38,8 @@
       align-items: center;
       gap: 12px;
     }
-    header h1 { margin: 0; font-size: 1.25rem; font-weight: 700; }
-    header p { margin: 4px 0 0; font-size: 0.85rem; color: #C7D7F2; }
+    header h1 { margin: 0; font-size: 1.22rem; font-weight: 700; }
+    header p { margin: 4px 0 0; font-size: 0.84rem; color: #C7D7F2; }
     .pill-row { display: flex; flex-wrap: wrap; gap: 6px; }
     .pill {
       font-size: 0.72rem;
@@ -50,14 +50,14 @@
     }
     .layout {
       display: grid;
-      grid-template-columns: 1fr 370px;
-      height: 62vh;
-      min-height: 480px;
+      grid-template-columns: 1fr 390px;
+      height: 64vh;
+      min-height: 500px;
       border-bottom: 1px solid var(--ln);
     }
     @media (max-width: 960px) {
       .layout { grid-template-columns: 1fr; height: auto; }
-      #flow-wrap { height: 460px; }
+      #flow-wrap { height: 480px; }
     }
     #flow-wrap { width: 100%; height: 100%; background: #F8FAFC; }
     .sidebar {
@@ -78,13 +78,13 @@
     }
     .sidebar h3 {
       margin: 14px 0 6px;
-      font-size: 0.8rem;
+      font-size: 0.78rem;
       text-transform: uppercase;
       letter-spacing: 0.04em;
       color: var(--mu);
     }
-    .sidebar ul { margin: 0; padding-left: 18px; font-size: 0.86rem; line-height: 1.5; }
-    .sidebar p { margin: 0 0 8px; font-size: 0.87rem; line-height: 1.45; }
+    .sidebar ul { margin: 0; padding-left: 18px; font-size: 0.85rem; line-height: 1.5; }
+    .sidebar p { margin: 0 0 8px; font-size: 0.86rem; line-height: 1.45; }
     .strategy {
       max-width: 1280px;
       margin: 0 auto;
@@ -116,9 +116,13 @@
       border: 2px solid var(--bl);
       border-radius: 10px;
       padding: 10px 12px;
-      width: 220px;
+      width: 230px;
       box-shadow: 0 4px 10px rgba(13, 27, 51, 0.08);
       cursor: pointer;
+    }
+    .rf-node-card.dashed {
+      border-style: dashed;
+      background: #F8FAFC;
     }
     .rf-node-card.selected { box-shadow: 0 0 0 3px rgba(0, 168, 224, 0.35); }
     .rf-node-tag { font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; }
@@ -129,8 +133,8 @@
 <body>
   <header>
     <div>
-      <h1>Especialización en Aprendizaje Automático mediante IA · Path Integrado (UNAL Plan 4356)</h1>
-      <p>4 Obligatorias + Desarrollo de Software con IA · Cadencia 12+4 semanas (3 h/sem) · Fusión Hermes 68372 + Metodología Angie</p>
+      <h1>Especialización en Aprendizaje Automático mediante IA · Path Curricular (UNAL Plan 4356)</h1>
+      <p>Semestre 1 y Semestre 2 · Cadencia 12+4 semanas (3 h/sem) · Aprendizaje Profundo, ABP y Design Thinking</p>
     </div>
     <div class="pill-row">
       <span class="pill" style="background: var(--cy);">1. Empatizar</span>
@@ -153,95 +157,139 @@
     const { Background, Controls, MiniMap, Handle, Position } = RF;
 
     const COURSE_DATA = {
-      obl1: {
+      pedagogy: {
+        tag: "Estrategia Pedagógica Transversal",
+        title: "Aprendizaje Profundo + Design Thinking",
+        sub: "Motivación · Argumentación · Resolución",
+        color: "#0D1B33",
+        role: "Modelo instruccional común para adultos con poco tiempo: clases semanales de 3 h (máx. 60 min magistral + 120 min interacción ABP) y consulta asíncrona ágil.",
+        modules: [
+          "Kit Asíncrono (15–20 min): video ≤3 min, infografía, mapa mental y 5 tarjetas",
+          "Worked Examples antes del reto autónomo para evitar descarga cognitiva",
+          "Evaluación por diagnóstico y criterio: predecir ejecución, hallar bugs y argumentar"
+        ],
+        blocks: [
+          "Empatizar (#00A8E0) + Definir (#E9572B): 25 min — caso roto real y reto",
+          "Cápsula Magistral + Worked Example (#4DB922): 35 min (≤60 min expositivos)",
+          "Idear + Prototipar (#FF8A00): 80 min ABP con andamiaje sin entregar solución",
+          "Evaluar (#3763A9): 30 min — diagnóstico de fallos y defensa de trade-offs"
+        ],
+        handoff: "Fortalecimiento verificable de motivación, argumentación y resolución de problemas."
+      },
+      s1_datos: {
         tag: "Semestre 1 · OBL 01 · SIA 18368",
         title: "Ingeniería de Datos y Big Data",
-        sub: "12+4 sem · Contratos y Feature Store",
+        sub: "12+4 sem · Contratos, Pipelines y Linaje",
         color: "#00A8E0",
-        role: "Capa de Datos y Gobernanza: entrega datasets versionados, contratos de esquema y pipelines reproducibles.",
-        modules: ["references/Made-With-ML (data validation & lineage)", "Contratos Pydantic v2 (M1)", "Postgres + pgvector (docker-compose.yml)"],
+        role: "Base de datos del path: enseña ingesta, calidad, almacenamiento distribuido, Feature Stores y gobernanza para sostener modelos en producción.",
+        modules: [
+          "references/Made-With-ML (validación de datos y linaje)",
+          "Contratos Pydantic v2 (M1) + Postgres/pgvector (docker-compose.yml)"
+        ],
         blocks: [
-          "S1–S3 → S4 (Hito 1): Arquitecturas (Warehouse/Lakehouse), Parquet/Avro y calidad",
-          "S5–S7 → S8 (Hito 2): SQL analítico, modelado dimensional y NoSQL",
+          "S1–S3 → S4 (Hito 1): Warehouse/Lakehouse, Parquet/Avro y contratos de calidad",
+          "S5–S7 → S8 (Hito 2): SQL analítico, modelado dimensional y bases NoSQL",
           "S9–S11 → S12 (Hito 3): Pipelines batch/stream, Spark e idempotencia",
-          "S13–S15 → S16 (Hito 4): Linaje, Feature Store, deriva y Ley 1581/2012"
+          "S13–S15 → S16 (Hito 4): Versionado/linaje, Feature Store, deriva y Ley 1581/2012"
         ],
-        handoff: "Dataset versionado + contratos de datos listos para entrenamiento."
+        handoff: "Datasets versionados, contratos de datos y pipelines listos para DL y Serving."
       },
-      obl2: {
-        tag: "Semestre 1 · OBL 02 · SIA 18371",
-        title: "Introducción al Aprendizaje de Máquina",
-        sub: "12+4 sem · Baseline y Validación sin fugas",
-        color: "#E9572B",
-        role: "Capa de Modelado Clásico: enseña rigor estadístico, validación sin data leakage e interpretabilidad.",
-        modules: ["references/Made-With-ML (pipelines reproducibles y métricas)", "Pruebas de datos y regresión sobre modelos tabulares"],
-        blocks: [
-          "S1–S3 → S4 (Hito 1): Álgebra, optimización y riesgo empírico",
-          "S5–S7 → S8 (Hito 2): Modelos supervisados (lineales, SVM, árboles/boosting)",
-          "S9–S11 → S12 (Hito 3): No supervisados (clustering, PCA/UMAP) y regularización",
-          "S13–S15 → S16 (Hito 4): Métricas (F1, PR-AUC, RMSE), desbalanceo e interpretabilidad"
-        ],
-        handoff: "Modelo baseline validado + protocolo experimental reproducible."
-      },
-      ele: {
-        tag: "Semestre 1/2 · ELE · 3 Créditos",
-        title: "Principios de Desarrollo de Software con IA",
-        sub: "12+4 sem · SDD + TDD + Hexagonal + MCP",
-        color: "#4DB922",
-        role: "Capa de Arquitectura y SDLC: evita deuda técnica al programar con agentes mediante SDD, TDD y CI/CD.",
-        modules: ["M1: 01-software-architecture (Hexagonal + Pydantic v2)", "M3: Protocolo MCP y contexto", ".github/workflows/agent-ci.yml (ruff, mypy, pytest, DORA)"],
-        blocks: [
-          "S1–S3 → S4 (Hito 1): Deuda técnica con IA, Arquitectura Hexagonal y SDD",
-          "S5–S7 → S8 (Hito 2): TDD (rojo-verde-refactor), dobles/mocks y propiedades",
-          "S9–S11 → S12 (Hito 3): Agentes de código, ingeniería de contexto y MCP",
-          "S13–S15 → S16 (Hito 4): Revisión asistida, análisis estático, CI/CD y métricas DORA"
-        ],
-        handoff: "Repositorio gobernado con specs ejecutables, tests de contrato y CI."
-      },
-      obl3: {
-        tag: "Semestre 2 · OBL 03 · SIA 18373",
-        title: "Redes Neuronales y Aprendizaje Profundo",
+      s1_redes: {
+        tag: "Semestre 1 · OBL 03 · SIA 18373",
+        title: "Redes Neuronales y Deep Learning",
         sub: "12+4 sem · Transformers, LoRA y Cuantización",
         color: "#FF8A00",
-        role: "Capa de Deep Learning y LLMs: construcción desde cero en PyTorch hasta ajuste fino eficiente y perfilado.",
-        modules: ["M2: 02-inference-gateway (puente cuantización y VRAM)", "M3: Fundamentos de embeddings y atención", "Made-With-ML (reproducibilidad)"],
+        role: "Núcleo de arquitecturas profundas en el path: construcción desde cero en PyTorch hasta Transformers, LLMs, ajuste fino eficiente y perfilado.",
+        modules: [
+          "M2: 02-inference-gateway (puente cuantización, VRAM y huella)",
+          "M3: Fundamentos de embeddings, atención y ventana de contexto",
+          "references/Made-With-ML (semillas y reproducibilidad)"
+        ],
         blocks: [
           "S1–S3 → S4 (Hito 1): MLP desde cero, CNNs/ResNet y RNN/LSTM/GRU",
           "S5–S7 → S8 (Hito 2): Atención (Q/K/V), Transformers y fundamentos de LLMs",
           "S9–S11 → S12 (Hito 3): LoRA/QLoRA, cuantización y entrenamiento distribuido",
-          "S13–S15 → S16 (Hito 4): Reproducibilidad, perfilado y comparativa modelo compacto vs. LLM"
+          "S13–S15 → S16 (Hito 4): Reproducibilidad, perfilado y modelo compacto vs. LLM"
         ],
-        handoff: "Modelo profundo / LLM ajustado y cuantizado con perfil de cómputo."
+        handoff: "Modelos profundos / LLMs ajustados y cuantizados con perfil de cómputo."
       },
-      obl4: {
-        tag: "Semestre 2 · OBL 04 · SIA 18375",
-        title: "Despliegue de Modelos y Agentes Inteligentes",
+      s1_despliegue: {
+        tag: "Semestre 1 · OBL 04 · SIA 18375",
+        title: "Despliegue de Modelos y Agentes IA",
         sub: "12+4 sem · vLLM, LangGraph, MCP, AgentOps",
         color: "#3763A9",
-        role: "Capa de Producción Full-Stack: serving, RAG/MCP, UX con SSE/HITL, observabilidad y cumplimiento regulatorio.",
-        modules: ["M2: vLLM + LiteLLM", "M3: FastAPI + LangGraph + MCP", "M4: Next.js SSE + HITL", "M5: Langfuse + Promptfoo", "capstone/"],
+        role: "Columna vertebral Full-Stack en producción: MLOps, serving híbrido, RAG/MCP, UX con SSE/HITL, observabilidad y cumplimiento regulatorio.",
+        modules: [
+          "M2: Dockerfile.vllm + litellm_config.yaml + structured outputs",
+          "M3: FastAPI async + LangGraph + servidor MCP",
+          "M4: Next.js SSE + HITL | M5: Langfuse + Promptfoo | capstone/"
+        ],
         blocks: [
           "S1–S3 → S4 (Hito 1): MLOps, model registry, canary/shadow y Docker",
           "S5–S7 → S8 (Hito 2): vLLM, cuantización/ONNX/edge y LiteLLM fallback",
           "S9–S11 → S12 (Hito 3): pgvector + RAG/Agentic RAG, LangGraph, MCP y UX SSE/HITL",
-          "S13–S15 → S16 (Hito 4): Promptfoo, Langfuse, deriva, seguridad y Ley 1581 / EU AI Act / ISO 42001"
+          "S13–S15 → S16 (Hito 4): Promptfoo, Langfuse, deriva, seguridad y Ley 1581 / UE 2024/1689 / ISO 42001"
         ],
-        handoff: "Sistema End-to-End en producción, auditable y con análisis de riesgo/costo."
+        handoff: "Sistema agéntico desplegado, medible, auditable y con análisis de riesgo/costo."
       },
-      hermes_angie: {
-        tag: "Núcleo Pedagógico Transversal",
-        title: "Hermes 68372 + Metodología Angie",
-        sub: "Motivación · Argumentación · Resolución",
-        color: "#0D1B33",
-        role: "Motor didáctico común a las 5 materias: clases de 3 h (≤1 h magistral + 2 h ABP) y consulta asíncrona ágil.",
-        modules: ["Kit Asíncrono: video ≤3 min, infografía, mapa mental, 5 tarjetas", "Worked Examples antes del reto autónomo", "Evaluación sin memorización: predicción, bugs y mediación"],
-        blocks: [
-          "Empatizar (#00A8E0) + Definir (#E9572B): 25 min — caso roto real + reto",
-          "Cápsula Magistral + Worked Example (#4DB922): 35 min (máx. 60 min expositivos)",
-          "Idear + Prototipar (#FF8A00): 80 min ABP con tutor IA que guía sin dar la respuesta",
-          "Evaluar (#3763A9): 30 min — diagnóstico de fallos + defensa breve de trade-offs"
+      s1_elec: {
+        tag: "Semestre 1 · Fuera del Path",
+        title: "Electiva General (1)",
+        sub: "Complemento electivo del plan",
+        color: "#64748B",
+        dashed: true,
+        role: "Asignatura electiva fuera del path núcleo de ingeniería de agentes y despliegue; aporta amplitud disciplinar según la ruta elegida por el estudiante.",
+        modules: ["No acoplada directamente a módulos de fullstack-ai-agents-lab"],
+        blocks: ["Cursa en paralelo durante el Primer Semestre según oferta del plan 4356."],
+        handoff: "Créditos electivos de profundización o contexto."
+      },
+      s2_ml: {
+        tag: "Semestre 2 · OBL 02 · SIA 18371",
+        title: "Machine Learning (Intro al ML)",
+        sub: "12+4 sem · Rigor Estadístico y Validación",
+        color: "#E9572B",
+        role: "Consolidación matemática y experimental en el path: modelos clásicos, control de sesgo-varianza, prevención de data leakage e interpretabilidad.",
+        modules: [
+          "references/Made-With-ML (protocolos de validación y métricas)",
+          "Comparativa de modelos tabulares y análisis de interpretabilidad"
         ],
-        handoff: "Aprendizaje profundo verificable sin descarga cognitiva."
+        blocks: [
+          "S1–S3 → S4 (Hito 1): Álgebra aplicada, optimización y riesgo empírico",
+          "S5–S7 → S8 (Hito 2): Supervisados (lineales, SVM/kernels, árboles/boosting)",
+          "S9–S11 → S12 (Hito 3): No supervisados (clustering, PCA/UMAP) y regularización/CV",
+          "S13–S15 → S16 (Hito 4): Métricas (F1, PR-AUC, RMSE), desbalanceo e interpretabilidad"
+        ],
+        handoff: "Criterio estadístico sólido para seleccionar, validar e interpretar modelos."
+      },
+      s2_soft: {
+        tag: "Semestre 2 · ELE · 3 Créditos",
+        title: "Desarrollo de Software con Agentes",
+        sub: "12+4 sem · SDD + TDD + Hexagonal + CI/CD",
+        color: "#4DB922",
+        role: "Cierre de ingeniería de software y SDLC en el path: dirigir agentes de código sin deuda técnica mediante especificaciones ejecutables, pruebas y CI/CD.",
+        modules: [
+          "M1: 01-software-architecture (Hexagonal, Pydantic v2, MockLLMAdapter)",
+          "M3: Protocolo MCP e ingeniería de contexto",
+          ".github/workflows/agent-ci.yml (ruff, mypy, pytest y métricas DORA)"
+        ],
+        blocks: [
+          "S1–S3 → S4 (Hito 1): Deuda técnica con IA, Arquitectura Hexagonal y SDD",
+          "S5–S7 → S8 (Hito 2): TDD (rojo-verde-refactor), dobles/mocks y propiedades",
+          "S9–S11 → S12 (Hito 3): Agentes de codificación, contexto y protocolo MCP",
+          "S13–S15 → S16 (Hito 4): Revisión asistida, análisis estático, CI/CD y métricas DORA"
+        ],
+        handoff: "Software mantenible, especificado, testeado y gobernado en producción."
+      },
+      s2_elecs: {
+        tag: "Semestre 2 · Fuera del Path",
+        title: "Dos Electivas (2)",
+        sub: "Complemento electivo del plan",
+        color: "#64748B",
+        dashed: true,
+        role: "Dos asignaturas electivas fuera del path núcleo para completar la formación de posgrado según los intereses aplicados del estudiante.",
+        modules: ["No acopladas directamente a módulos de fullstack-ai-agents-lab"],
+        blocks: ["Cursan en paralelo durante el Segundo Semestre según oferta del plan 4356."],
+        handoff: "Créditos electivos de cierre del programa."
       }
     };
 
@@ -249,7 +297,7 @@
       return e(
         "div",
         {
-          className: "rf-node-card" + (selected ? " selected" : ""),
+          className: "rf-node-card" + (data.dashed ? " dashed" : "") + (selected ? " selected" : ""),
           style: { borderColor: data.color }
         },
         e(Handle, { type: "target", position: Position.Left, style: { background: data.color } }),
@@ -263,27 +311,27 @@
     const nodeTypes = { course: CourseNode };
 
     const initialNodes = [
-      { id: "hermes_angie", type: "course", position: { x: 280, y: 15 }, data: COURSE_DATA.hermes_angie },
-      { id: "obl1", type: "course", position: { x: 40, y: 150 }, data: COURSE_DATA.obl1 },
-      { id: "obl2", type: "course", position: { x: 40, y: 290 }, data: COURSE_DATA.obl2 },
-      { id: "ele", type: "course", position: { x: 320, y: 290 }, data: COURSE_DATA.ele },
-      { id: "obl3", type: "course", position: { x: 320, y: 150 }, data: COURSE_DATA.obl3 },
-      { id: "obl4", type: "course", position: { x: 620, y: 215 }, data: COURSE_DATA.obl4 }
+      { id: "pedagogy", type: "course", position: { x: 320, y: 10 }, data: COURSE_DATA.pedagogy },
+      { id: "s1_datos", type: "course", position: { x: 20, y: 130 }, data: COURSE_DATA.s1_datos },
+      { id: "s1_redes", type: "course", position: { x: 20, y: 245 }, data: COURSE_DATA.s1_redes },
+      { id: "s1_despliegue", type: "course", position: { x: 320, y: 185 }, data: COURSE_DATA.s1_despliegue },
+      { id: "s1_elec", type: "course", position: { x: 20, y: 365 }, data: COURSE_DATA.s1_elec },
+      { id: "s2_ml", type: "course", position: { x: 640, y: 130 }, data: COURSE_DATA.s2_ml },
+      { id: "s2_soft", type: "course", position: { x: 640, y: 245 }, data: COURSE_DATA.s2_soft },
+      { id: "s2_elecs", type: "course", position: { x: 640, y: 365 }, data: COURSE_DATA.s2_elecs }
     ];
 
     const initialEdges = [
-      { id: "e-h-1", source: "hermes_angie", target: "obl1", animated: true, style: { stroke: "#0D1B33" } },
-      { id: "e-h-3", source: "hermes_angie", target: "obl3", animated: true, style: { stroke: "#0D1B33" } },
-      { id: "e-h-4", source: "hermes_angie", target: "obl4", animated: true, style: { stroke: "#0D1B33" } },
-      { id: "e-1-2", source: "obl1", target: "obl2", label: "Dataset + Contratos", animated: true, style: { stroke: "#00A8E0", strokeWidth: 2 } },
-      { id: "e-1-3", source: "obl1", target: "obl3", label: "Datos versionados", animated: true, style: { stroke: "#00A8E0", strokeWidth: 2 } },
-      { id: "e-2-3", source: "obl2", target: "obl3", label: "Criterio validación", animated: true, style: { stroke: "#E9572B", strokeWidth: 2 } },
-      { id: "e-ele-4", source: "ele", target: "obl4", label: "SDD + TDD + Hexagonal + MCP", animated: true, style: { stroke: "#4DB922", strokeWidth: 2 } },
-      { id: "e-3-4", source: "obl3", target: "obl4", label: "LLM / LoRA + Cuantización", animated: true, style: { stroke: "#FF8A00", strokeWidth: 2 } }
+      { id: "e-p-d", source: "pedagogy", target: "s1_despliegue", animated: true, style: { stroke: "#0D1B33" } },
+      { id: "e-d-des", source: "s1_datos", target: "s1_despliegue", label: "Datasets + pgvector", animated: true, style: { stroke: "#00A8E0", strokeWidth: 2 } },
+      { id: "e-r-des", source: "s1_redes", target: "s1_despliegue", label: "LLMs / LoRA / Cuantización", animated: true, style: { stroke: "#FF8A00", strokeWidth: 2 } },
+      { id: "e-d-ml", source: "s1_datos", target: "s2_ml", label: "Features + Contratos", style: { stroke: "#00A8E0", strokeDasharray: "5 5" } },
+      { id: "e-des-ml", source: "s1_despliegue", target: "s2_ml", label: "Métricas y validación", animated: true, style: { stroke: "#E9572B", strokeWidth: 2 } },
+      { id: "e-des-sw", source: "s1_despliegue", target: "s2_soft", label: "MCP + CI/CD + SDD/TDD", animated: true, style: { stroke: "#4DB922", strokeWidth: 2 } }
     ];
 
     function App() {
-      const [selectedId, setSelectedId] = React.useState("obl4");
+      const [selectedId, setSelectedId] = React.useState("s1_despliegue");
       const active = COURSE_DATA[selectedId];
 
       return e(
@@ -315,11 +363,11 @@
             e("span", { className: "badge", style: { background: active.color } }, active.tag),
             e("h2", null, active.title),
             e("p", null, active.role),
-            e("h3", null, "Módulos de fullstack-ai-agents-lab"),
+            e("h3", null, "Relación con fullstack-ai-agents-lab"),
             e("ul", null, active.modules.map((m, i) => e("li", { key: i }, m))),
             e("h3", null, "Estructura 12+4 semanas (3 h/sem)"),
             e("ul", null, active.blocks.map((b, i) => e("li", { key: i }, b))),
-            e("h3", null, "Entregable hacia el siguiente nivel"),
+            e("h3", null, "Aporte al Path"),
             e("p", { style: { fontWeight: 600, color: "#0D1B33" } }, active.handoff)
           )
         ),
@@ -329,30 +377,30 @@
           e(
             "div",
             { className: "card" },
-            e("h3", null, "1. Ejes Hermes 68372 (Sin descarga cognitiva)"),
-            e("p", null, "Toda interacción con agentes busca evitar la ilusión de competencia y fortalecer tres dimensiones independientes:"),
+            e("h3", null, "1. Aprendizaje Profundo Verificable"),
+            e("p", null, "Evita la descarga cognitiva al trabajar con IA fortaleciendo tres dimensiones independientes:"),
             e("ul", null,
-              e("li", null, e("strong", null, "Motivación: "), "retos reales de despliegue con agencia del aprendiz."),
-              e("li", null, e("strong", null, "Argumentación: "), "defender trade-offs (latencia, VRAM, costo, riesgo) con trazas reales."),
-              e("li", null, e("strong", null, "Resolución de problemas: "), "depurar antes de invocar librerías y validar con pruebas.")
+              e("li", null, e("strong", null, "Motivación: "), "problemas reales de despliegue con agencia del aprendiz."),
+              e("li", null, e("strong", null, "Argumentación: "), "justificar trade-offs (latencia, VRAM, costo, riesgo) con trazas reales."),
+              e("li", null, e("strong", null, "Resolución de problemas: "), "construir desde cero, depurar y validar con pruebas.")
             )
           ),
           e(
             "div",
             { className: "card" },
-            e("h3", null, "2. Metodología Angie (Adultos con poco tiempo)"),
-            e("p", null, "Diseño ágil basado en Andragogía (Knowles), Worked Examples (Sweller), PCK (Shulman) y Retrieval Practice:"),
+            e("h3", null, "2. Diseño Ágil para Adultos (3 h/sem)"),
+            e("p", null, "Basado en Andragogía, Worked Examples y Retrieval Practice:"),
             e("ul", null,
-              e("li", null, e("strong", null, "Sesión de 3 h: "), "máx. 60 min expositivos + 120 min de ABP activo."),
+              e("li", null, e("strong", null, "Clase de 3 h: "), "máx. 60 min magistrales + 120 min de interacción ABP."),
               e("li", null, e("strong", null, "Consulta asíncrona: "), "video ≤3 min, infografía, mapa mental y 5 tarjetas."),
-              e("li", null, e("strong", null, "Evaluación: "), "predecir salidas no obvias, detectar bugs y guiar sin dar la respuesta.")
+              e("li", null, e("strong", null, "Evaluación: "), "predecir salidas no obvias, detectar fallos y guiar sin dar la respuesta.")
             )
           ),
           e(
             "div",
             { className: "card" },
             e("h3", null, "3. Paleta Design Thinking + Cadencia 12+4"),
-            e("p", null, "Cada asignatura cumple 48 HAP en 4 bloques 3+1 (S1–S3→S4, S5–S7→S8, S9–S11→S12, S13–S15→S16):"),
+            e("p", null, "Cada materia del path cumple 48 HAP en 4 bloques 3+1 (S1–S3→S4, S5–S7→S8, S9–S11→S12, S13–S15→S16):"),
             e("div", { className: "dt-grid" },
               e("span", { className: "dt-chip", style: { background: "#00A8E0" } }, "Empatizar: caso roto"),
               e("span", { className: "dt-chip", style: { background: "#E9572B" } }, "Definir: spec SDD"),
