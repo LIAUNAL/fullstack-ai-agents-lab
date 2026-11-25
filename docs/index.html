@@ -322,6 +322,16 @@
         color: "#00A8E0",
         pills: ["1. Lakehouse/Parquet", "2. Calidad/Contratos", "3. SQL & NoSQL", "4. Spark/Pipelines", "5. Linaje/Feature Store"],
         role: "Cimiento del path: transforma datos crudos en conjuntos versionados, confiables y trazables para entrenamiento e inferencia.",
+        objective: "Desarrollar competencias para diseñar, construir y operar procesos de ingeniería de datos que soporten sistemas de aprendizaje automático escalables, reproducibles y confiables.",
+        competencies: [
+          "Arquitectura de datos estructurados, semiestructurados y no estructurados (Warehouse/Lakehouse).",
+          "Ingeniería de calidad, perfilado, transformación y contratos de esquema.",
+          "Procesamiento distribuido batch/streaming y gobernanza de datos (Ley 1581/2012)."
+        ],
+        learningOutcomes: [
+          "Diseña y opera pipelines reproducibles desde la ingesta hasta un dataset listo para entrenamiento.",
+          "Implementa versionado, linaje, Feature Stores y detección de deriva evaluando costo y latencia."
+        ],
         units: [
           "Mód. 1 · Fundamentos y arquitecturas de datos (Warehouse, Lake, Lakehouse, Parquet/ORC/Avro)",
           "Mód. 2 · Procesamiento y calidad de datos (perfilado, imputación, contratos de esquema)",
@@ -329,7 +339,17 @@
           "Mód. 4 · Pipelines y procesamiento distribuido (batch vs. flujo, Spark, orquestación idempotente)",
           "Mód. 5 · Datos para IA en producción (versionado/linaje, Feature Store, deriva, Ley 1581/2012)"
         ],
-        labLink: ["references/Made-With-ML (validación de datos y linaje)", "Contratos Pydantic v2 (M1)", "Postgres + pgvector (docker-compose.yml)"],
+        labLink: [
+          "Repo: LIAUNAL/Made-With-ML (validación de datos y linaje)",
+          "Módulo Lab: Contratos Pydantic v2 (M1) + Postgres/pgvector (docker-compose.yml)"
+        ],
+        books: [
+          "Reis, J. & Housley, M. (2022). Fundamentals of Data Engineering. O'Reilly.",
+          "Kleppmann, M. (2017). Designing Data-Intensive Applications. O'Reilly.",
+          "Thangaraj, M. et al. (2022). Big Data Analytics: Concepts, Techniques, Tools and Technologies. PHI.",
+          "Chambers, B. & Zaharia, M. (2018). Spark: The Definitive Guide. O'Reilly.",
+          "Kimball, R. & Ross, M. (2013). The Data Warehouse Toolkit. Wiley."
+        ],
         blocks: [
           "S1–S3 → S4 (Hito 1): Arquitecturas, formatos analíticos y contratos de calidad",
           "S5–S7 → S8 (Hito 2): SQL analítico, modelado dimensional y NoSQL",
@@ -346,6 +366,16 @@
         color: "#FF8A00",
         pills: ["1. MLP/Backprop", "2. CNN/ResNet", "3. RNN/LSTM", "4. Transformers", "5. LLMs/LoRA", "6. Distribuido"],
         role: "Motor de representación: enseña a construir arquitecturas desde cero en PyTorch hasta ajustar LLMs bajo restricciones reales de VRAM.",
+        objective: "Desarrollar competencias para construir, entrenar, diagnosticar y validar redes neuronales profundas aplicadas a la resolución de problemas complejos en inteligencia artificial.",
+        competencies: [
+          "Implementación desde cero de MLP, CNN, modelos secuenciales y bloques Transformer.",
+          "Análisis interno de grandes modelos de lenguaje (LLMs) y ajuste fino eficiente (LoRA).",
+          "Optimización de memoria, entrenamiento distribuido y evaluación costo/desempeño."
+        ],
+        learningOutcomes: [
+          "Implementa arquitecturas mínimas en PyTorch antes de abstraer con librerías, diagnosticando gradientes.",
+          "Aplica LoRA, cuantización y precisión mixta evaluando costo computacional y huella energética."
+        ],
         units: [
           "Mód. 1 · Del perceptrón al MLP (activación, retropropagación, AdamW, diagnóstico)",
           "Mód. 2 · Redes convolucionales (LeNet→ResNet/EfficientNet, conexiones residuales, transfer learning)",
@@ -354,7 +384,17 @@
           "Mód. 5 · Fundamentos de LLMs (tokenización, embeddings, LoRA, cuantización, costo/huella)",
           "Mód. 6 · Entrenamiento distribuido y optimización (precisión mixta, perfilado, reproducibilidad)"
         ],
-        labLink: ["M2: 02-inference-gateway (puente cuantización y costo)", "M3: Embeddings y ventana de contexto", "Made-With-ML (semillas y métricas)"],
+        labLink: [
+          "Repo: LIAUNAL/Made-With-ML (semillas y métricas)",
+          "Módulos Lab: M2 (cuantización/VRAM) + M3 (embeddings y ventana de contexto)"
+        ],
+        books: [
+          "Goodfellow, I.; Bengio, Y.; Courville, A. (2016). Deep Learning. MIT Press.",
+          "Prince, S. J. D. (2023). Understanding Deep Learning. MIT Press.",
+          "Murphy, K. P. (2023). Probabilistic Machine Learning: Advanced Topics. MIT Press.",
+          "Zhang, A. et al. (2023). Dive into Deep Learning. Cambridge University Press.",
+          "Vaswani, A. et al. (2017). Attention Is All You Need. NeurIPS."
+        ],
         blocks: [
           "S1–S3 → S4 (Hito 1): MLP desde cero, CNNs/ResNet y RNN/LSTM",
           "S5–S7 → S8 (Hito 2): Atención (Q/K/V), Transformers y fundamentos LLMs",
@@ -371,6 +411,16 @@
         color: "#3763A9",
         pills: ["1. MLOps/Registry", "2. Docker/vLLM/Edge", "3. RAG/MCP/Agentes", "4. Eval/Trazas", "5. Seguridad/Ley"],
         role: "Columna vertebral operativa del path: lleva modelos a producción con serving híbrido, agentes RAG/MCP, UI con HITL, telemetría y gobernanza.",
+        objective: "Formar en el diseño, despliegue, evaluación y operación de modelos y agentes de inteligencia artificial en ambientes reales, bajo criterios verificables de calidad, costo y responsabilidad.",
+        competencies: [
+          "Ciclo de vida MLOps, empaquetado Docker y serving en nube/borde (vLLM, ONNX, LiteLLM).",
+          "Diseño de sistemas RAG, Agentic RAG y agentes con protocolo MCP y memoria.",
+          "Observabilidad distribuida, arneses de evaluación y cumplimiento ético/regulatorio."
+        ],
+        learningOutcomes: [
+          "Despliega prototipos agénticos contenerizados con trazas, estimación de costo y fallback.",
+          "Construye arneses de evaluación y controles contra prompt injection bajo Ley 1581, UE 2024/1689 e ISO 42001."
+        ],
         units: [
           "Mód. 1 · MLOps y ciclo de vida del modelo (registry, CI/CD, canary, shadow, pruebas A/B)",
           "Mód. 2 · Empaquetado y servicio (Docker, serving síncrono/batch, cuantización, ONNX/edge, vLLM/LiteLLM)",
@@ -378,7 +428,17 @@
           "Mód. 4 · Evaluación y observabilidad (arneses, LLM-as-a-judge, trayectorias, deriva, costo/latencia)",
           "Mód. 5 · Seguridad, ética y regulación (prompt injection, menor privilegio, Ley 1581, UE 2024/1689, ISO 42001)"
         ],
-        labLink: ["M2: Dockerfile.vllm + litellm_config.yaml", "M3: FastAPI + LangGraph + MCP", "M4: Next.js SSE + HITL | M5: Langfuse + Promptfoo"],
+        labLink: [
+          "Repos: LIAUNAL/llm-zoomcamp · LIAUNAL/GenAI_Agents · LIAUNAL/ai-agents-for-beginners",
+          "Módulos Lab: M2 (vLLM/LiteLLM), M3 (FastAPI+LangGraph+MCP), M4 (Next.js HITL), M5 (Langfuse+Promptfoo)"
+        ],
+        books: [
+          "Huyen, C. (2022). Designing Machine Learning Systems. O'Reilly.",
+          "Huyen, C. (2025). AI Engineering: Building Applications with Foundation Models. O'Reilly.",
+          "Albada, M. (2025). Building Applications with AI Agents. O'Reilly.",
+          "Treveil, M. et al. (2020). Introducing MLOps. O'Reilly.",
+          "Lewis, P. et al. (2020). Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks. NeurIPS."
+        ],
         blocks: [
           "S1–S3 → S4 (Hito 1): MLOps, model registry, canary/shadow y Docker",
           "S5–S7 → S8 (Hito 2): vLLM, cuantización/ONNX/edge y LiteLLM fallback",
@@ -396,8 +456,12 @@
         dashed: true,
         pills: ["Fuera del Path"],
         role: "Asignatura electiva fuera del path núcleo; amplía la formación según la línea de interés del estudiante.",
+        objective: "Complementar la formación interdisciplinaria del estudiante según la oferta electiva del programa.",
+        competencies: ["Competencias transversales o de dominio específico elegidas por el estudiante."],
+        learningOutcomes: ["Integra perspectivas complementarias al núcleo de ingeniería de IA."],
         units: ["Definida por la oferta electiva vigente del Plan 4356."],
         labLink: ["No acoplada directamente a módulos de fullstack-ai-agents-lab."],
+        books: ["Según programa oficial de la electiva seleccionada."],
         blocks: ["Se cursa en paralelo durante el Primer Semestre."],
         handoff: "Créditos electivos complementarios."
       },
@@ -409,6 +473,16 @@
         color: "#E9572B",
         pills: ["1. Mate/Opt.", "2. Supervisados", "3. No Supervisados", "4. Sesgo-Varianza/CV", "5. Métricas/XAI"],
         role: "Consolidación analítica en el path: garantiza criterio estadístico, control de fugas de información e interpretabilidad frente a modelos profundos.",
+        objective: "Fortalecer la comprensión conceptual y práctica de los algoritmos clásicos del aprendizaje de máquina, sus fundamentos estadísticos y sus aplicaciones en ingeniería y ciencia de datos.",
+        competencies: [
+          "Fundamentación matemática/estadística y formulación de riesgo empírico.",
+          "Implementación y selección de modelos supervisados y no supervisados.",
+          "Control de sesgo-varianza, validación sin fugas e interpretabilidad."
+        ],
+        learningOutcomes: [
+          "Diagnostica por qué falla un modelo mediante protocolos rigurosos de validación cruzada.",
+          "Justifica métricas en escenarios desbalanceados (F1, PR-AUC, RMSE) con reproducibilidad."
+        ],
         units: [
           "Mód. 1 · Fundamentos matemáticos y estadísticos (álgebra, probabilidad, optimización, riesgo empírico)",
           "Mód. 2 · Modelos supervisados (regresión, SVM/kernels, árboles/boosting, probabilísticos)",
@@ -416,7 +490,17 @@
           "Mód. 4 · Regularización, validación y selección (sesgo-varianza, L1/L2, CV sin fugas)",
           "Mód. 5 · Evaluación, métricas e interpretabilidad (F1/ROC-AUC/PR-AUC, desbalanceo, reproducibilidad)"
         ],
-        labLink: ["references/Made-With-ML (protocolos de validación y métricas)", "Comparativa de baselines clásicos vs. modelos profundos"],
+        labLink: [
+          "Repo: LIAUNAL/Made-With-ML (protocolos de validación y métricas)",
+          "Comparativa de baselines clásicos vs. modelos profundos"
+        ],
+        books: [
+          "Murphy, K. P. (2022). Probabilistic Machine Learning: An Introduction. MIT Press.",
+          "Bishop, C. M. (2006). Pattern Recognition and Machine Learning. Springer.",
+          "Hastie, T.; Tibshirani, R.; Friedman, J. (2009). The Elements of Statistical Learning. Springer.",
+          "James, G. et al. (2021). An Introduction to Statistical Learning. Springer.",
+          "Géron, A. (2022). Hands-On Machine Learning with Scikit-Learn, Keras and TensorFlow. O'Reilly."
+        ],
         blocks: [
           "S1–S3 → S4 (Hito 1): Álgebra aplicada, optimización y riesgo empírico",
           "S5–S7 → S8 (Hito 2): Supervisados (lineales, SVM, árboles/boosting)",
@@ -433,6 +517,16 @@
         color: "#4DB922",
         pills: ["1. Hexagonal", "2. SDD Specs", "3. TDD Contratos", "4. Agentes/MCP", "5. Eval Código", "6. CI/CD & DORA"],
         role: "Cierre de ingeniería y SDLC en el path: dirige agentes de codificación sin deuda técnica mediante especificaciones, pruebas y puertas de calidad.",
+        objective: "Desarrollar el criterio de ingeniería necesario para especificar, construir, verificar y mantener software producido en colaboración con agentes de inteligencia artificial, sin degradar la calidad ni la mantenibilidad del sistema resultante.",
+        competencies: [
+          "Arquitectura Hexagonal/limpia y especificación ejecutable como fuente de verdad (SDD).",
+          "Pruebas como contrato ejecutable (TDD), dobles de prueba y análisis estático.",
+          "Ingeniería de contexto, protocolo MCP, revisión asistida y CI/CD con métricas DORA."
+        ],
+        learningOutcomes: [
+          "Redacta especificaciones verificables y suites TDD que acotan el código generado por agentes.",
+          "Construye servidores MCP seguros, detecta vulnerabilidades y opera pipelines CI/CD con quality gates."
+        ],
         units: [
           "Mód. 1 · Fundamentos de ingeniería de software para IA (SRP, inversión de dependencias, Hexagonal, deuda)",
           "Mód. 2 · Especificación como fuente de verdad — SDD (requisitos ejecutables, escenarios, trazabilidad)",
@@ -441,7 +535,18 @@
           "Mód. 5 · Verificación y revisión asistida (arneses de eval, code review, análisis estático, vulnerabilidades)",
           "Mód. 6 · Integración y entrega continuas (CI/CD, quality gates, versionado semántico, métricas DORA)"
         ],
-        labLink: ["M1: 01-software-architecture (Hexagonal, Pydantic v2, MockLLMAdapter)", "M3: Protocolo MCP", ".github/workflows/agent-ci.yml (ruff, mypy, pytest)"],
+        labLink: [
+          "Repos: LIAUNAL/fullstack-ai-agents-lab · LIAUNAL/Made-With-ML",
+          "Módulos Lab: M1 (Hexagonal+Pydantic+MockLLM), M3 (MCP), .github/workflows/agent-ci.yml"
+        ],
+        books: [
+          "Beck, K. (2002). Test-Driven Development: By Example. Addison-Wesley.",
+          "Martin, R. C. (2017). Clean Architecture: A Craftsman's Guide to Software Structure and Design. Prentice Hall.",
+          "Humble, J. & Farley, D. (2010). Continuous Delivery. Addison-Wesley.",
+          "Forsgren, N.; Humble, J.; Kim, G. (2018). Accelerate: The Science of Lean Software and DevOps. IT Revolution.",
+          "Fowler, M. (2018). Refactoring: Improving the Design of Existing Code. Addison-Wesley.",
+          "Anthropic (2026). Model Context Protocol - Specification (modelcontextprotocol.io)."
+        ],
         blocks: [
           "S1–S3 → S4 (Hito 1): Deuda técnica con IA, Arquitectura Hexagonal y SDD",
           "S5–S7 → S8 (Hito 2): TDD, dobles/mocks y pruebas de contrato",
@@ -459,8 +564,12 @@
         dashed: true,
         pills: ["Fuera del Path"],
         role: "Dos asignaturas electivas fuera del path núcleo para completar créditos del segundo semestre.",
+        objective: "Profundizar en líneas aplicadas o investigativas elegidas por el estudiante.",
+        competencies: ["Competencias electivas complementarias de posgrado."],
+        learningOutcomes: ["Transfiere métodos de IA a dominios aplicados o proyectos de grado."],
         units: ["Definidas por la oferta electiva vigente del Plan 4356."],
         labLink: ["No acopladas directamente a módulos de fullstack-ai-agents-lab."],
+        books: ["Según programas oficiales de las electivas seleccionadas."],
         blocks: ["Se cursan en paralelo durante el Segundo Semestre."],
         handoff: "Créditos electivos de cierre del programa."
       }
@@ -692,10 +801,26 @@
             e("span", { className: "badge", style: { background: active.color } }, active.tag),
             e("h2", null, active.title),
             e("p", null, active.role),
+            active.objective && e(React.Fragment, null,
+              e("h3", null, "Objetivo general"),
+              e("p", null, active.objective)
+            ),
+            active.competencies && e(React.Fragment, null,
+              e("h3", null, "Competencias"),
+              e("ul", null, active.competencies.map((c, i) => e("li", { key: i }, c)))
+            ),
+            active.learningOutcomes && e(React.Fragment, null,
+              e("h3", null, "Resultados de aprendizaje"),
+              e("ul", null, active.learningOutcomes.map((r, i) => e("li", { key: i }, r)))
+            ),
             e("h3", null, view === "subjects" ? "Módulos oficiales de la asignatura" : "Artefactos que se construyen"),
             e("ul", null, active.units.map((u, i) => e("li", { key: i }, u))),
-            e("h3", null, "Acoplamiento con fullstack-ai-agents-lab"),
+            e("h3", null, "Referencias GitHub y Laboratorio"),
             e("ul", null, active.labLink.map((m, i) => e("li", { key: i }, m))),
+            active.books && e(React.Fragment, null,
+              e("h3", null, "Libros y fuentes del microcurrículo"),
+              e("ul", null, active.books.map((b, i) => e("li", { key: i }, b)))
+            ),
             e("h3", null, "Intensidad horaria 12+4 semanas (3 h/sem)"),
             e("ul", null, active.blocks.map((b, i) => e("li", { key: i }, b))),
             e("h3", null, "Aporte al Path"),
